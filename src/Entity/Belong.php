@@ -32,7 +32,7 @@ class Belong
      * @ORM\Column(type="decimal", precision=10, scale=0)
      */
     private $quantity;
-
+//whatt
     /**
      * @ORM\Column(type="boolean")
      */
