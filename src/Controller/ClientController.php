@@ -18,4 +18,5 @@ class ClientController extends AbstractController
         $client = $repository->findAll();
         return $this->render('client/index.html.twig',$client);
     }
+    //jjd d jnjkzjd jsqkndjsnd
 }
