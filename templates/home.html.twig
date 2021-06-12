@@ -7,7 +7,7 @@
     {#        {% include 'fragments/carousel.html.twig' %}#}
     {#        {% include 'fragments/poppingOptions.html.twig' %}#}
 
-{#    {% if is_granted("ROLE_OWNER") %}#}
+    {% if is_granted("ROLE_USER") %}
 
         {% include 'basefront/fragments/carousel.html.twig' %}
 
@@ -15,11 +15,11 @@
         {% include 'basefront/fragments/sideNote.html.twig' %}
         {% include 'basefront/fragments/quotes.html.twig' %}
 
-{#    {% elseif is_granted("ROLE_RESIDENT") %}#}
+    {% elseif is_granted("ROLE_ADMIN") %}
         {% include 'basefront/fragments/carousel.html.twig' %}
         {% include 'basefront/fragments/poppingOptions.html.twig' %}
         {% include 'basefront/fragments/sideNote.html.twig' %}
         {% include 'basefront/fragments/quotes.html.twig' %}
 
-{#    {% endif %}#}
+    {% endif %}
 {% endblock %}

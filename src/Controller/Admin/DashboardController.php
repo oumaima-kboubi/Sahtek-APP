@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Category;
+use App\Entity\City;
 use App\Entity\Drug;
 use App\Entity\DrugOrder;
 use App\Entity\Entreprise;
@@ -58,6 +59,7 @@ class DashboardController extends AbstractDashboardController
          yield MenuItem::linkToCrud('Category','fa fa-pdf',Category::class);
          yield MenuItem::section('Users');
          yield MenuItem::linkToCrud('User','fa fa-user',User::class);
+         yield MenuItem::linkToCrud('City','fa fa-user',City::class);
 
     }
 }

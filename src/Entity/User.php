@@ -6,12 +6,16 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ApiResource
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
+ * @Vich\Uploadable()
  */
 class User implements UserInterface
 {
@@ -44,12 +48,14 @@ class User implements UserInterface
     private $isVerified = false;
 
     /**
+     * @Gedmo\Timestampable (on="create")
      * @ORM\Column(type="datetime")
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Gedmo\Timestampable (on="update")
      */
     private $updatedAt;
 
@@ -62,16 +68,32 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=255)
      */
     private $lastName;
+//     * @ORM\ManyToOne(targetEntity=City::class, inversedBy="users")
+//    /**
+//   * @ORM\Column(type="string", length=255)
+//     */
+//    private $adress;
 
     /**
-     * @ORM\ManyToOne(targetEntity=City::class, inversedBy="users")
+     * @ORM\Column(type="date")
      */
-    private $adress;
+    private $birthDate;
 
     /**
-     * @ORM\Column(type="integer")
+     * @return mixed
      */
-    private $age;
+    public function getBirthDate()
+    {
+        return $this->birthDate;
+    }
+
+    /**
+     * @param mixed $birthDate
+     */
+    public function setBirthDate($birthDate): void
+    {
+        $this->birthDate = $birthDate;
+    }
 
     /**
      * @ORM\Column(type="integer")
@@ -83,11 +105,28 @@ class User implements UserInterface
      */
     private $solde;
 
+//    /**
+//     * @ORM\Column(type="string", length=255)
+//     */
+//    private $username;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @var string
+     *
+     */
+    private $featured_image;
+
+    /**
+     * @Vich\UploadableField(mapping="featured_images",fileNameProperty="featured_image")
+     * @var File
+     */
+    private $imageFile;
+
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $username;
-
+    private $city;
     public function getId(): ?int
     {
         return $this->id;
@@ -191,24 +230,24 @@ class User implements UserInterface
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
+//    public function setCreatedAt(\DateTimeInterface $createdAt): self
+//    {
+//        $this->createdAt = $createdAt;
+//
+//        return $this;
+//    }
 
     public function getUpdatedAt(): ?\DateTimeInterface
     {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
-    {
-        $this->updatedAt = $updatedAt;
-
-        return $this;
-    }
+//    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
+//    {
+//        $this->updatedAt = $updatedAt;
+//
+//        return $this;
+//    }
 
     public function getFirstName(): ?string
     {
@@ -234,17 +273,17 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getAdress(): ?City
-    {
-        return $this->adress;
-    }
-
-    public function setAdress(?City $adress): self
-    {
-        $this->adress = $adress;
-
-        return $this;
-    }
+//    public function getAdress(): ?string
+//    {
+//        return $this->adress;
+//    }
+//
+//    public function setAdress(string $adress): self
+//    {
+//        $this->adress = $adress;
+//
+//        return $this;
+//    }
 
     public function getAge(): ?int
     {
@@ -285,6 +324,52 @@ class User implements UserInterface
     public function setUsername(string $username): self
     {
         $this->username = $username;
+
+        return $this;
+    }
+    public function getFeaturedImage()
+    {
+        return $this->featured_image;
+    }
+
+    public function setFeaturedImage(string $featured_image)
+    {
+        $this->featured_image = $featured_image;
+
+        return $this;
+    }
+
+
+    /**
+     * @param mixed $image
+     *
+     */
+    public function setImageFile($image): void
+    {
+        $this->imageFile = $image;
+
+        if ($image) {
+            $this->updatedAt = new \DateTime('now');
+        }
+    }
+
+    /**
+     * @return mixed
+     *
+     */
+    public function getImageFile()
+    {
+        return $this->imageFile;
+    }
+
+    public function getCity(): ?string
+    {
+        return $this->city;
+    }
+
+    public function setCity(string $city): self
+    {
+        $this->city = $city;
 
         return $this;
     }

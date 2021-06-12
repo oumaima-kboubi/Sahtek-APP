@@ -65,23 +65,25 @@ class Drug
 
     /**
      * @ORM\Column(type="string", length=255)
-//     * @var string
+     * @var string
      *
      */
     private $featured_image;
 
     /**
      * @Vich\UploadableField(mapping="featured_images",fileNameProperty="featured_image")
-//     * @var File
+     * @var File
      */
     private $imageFile;
     /**
      *
      * @ORM\Column(type="datetime")
+     * @Gedmo\Timestampable (on="update")
      */
     private $updatedAt;
 
     /**
+     * @Gedmo\Timestampable (on="create")
      * @ORM\Column(type="datetime")
      */
     private $createdAt;
@@ -242,19 +244,7 @@ class Drug
         return $this;
     }
 
-    public function getFeaturedImage()
-    {
-        return $this->featured_image;
-    }
-
-    public function setFeaturedImage(string $featured_image)
-    {
-        $this->featured_image = $featured_image;
-
-        return $this;
-    }
-
-//    public function getSlug(): ?string
+    //    public function getSlug(): ?string
 //    {
 //        return $this->slug;
 //    }
@@ -289,6 +279,20 @@ class Drug
 //
 //       return $this;
 //   }
+
+    public function getFeaturedImage()
+    {
+        return $this->featured_image;
+    }
+
+    public function setFeaturedImage(string $featured_image)
+    {
+        $this->featured_image = $featured_image;
+
+        return $this;
+    }
+
+
     /**
      * @param mixed $image
      *
@@ -316,12 +320,12 @@ class Drug
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
-    {
-        $this->updatedAt = $updatedAt;
-
-        return $this;
-    }
+//    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
+//    {
+//        $this->updatedAt = $updatedAt;
+//
+//        return $this;
+//    }
 
     /**
      * @return Collection|DrugOrder[]
@@ -358,11 +362,11 @@ class Drug
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
+//    public function setCreatedAt(\DateTimeInterface $createdAt): self
+//    {
+//        $this->createdAt = $createdAt;
+//
+//        return $this;
+//    }
 
 }

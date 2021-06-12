@@ -5,9 +5,12 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\DrugOrderRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ApiResource
+ * @Vich\Uploadable()
  * @ORM\Entity(repositoryClass=DrugOrderRepository::class)
  */
 class DrugOrder
@@ -49,21 +52,34 @@ class DrugOrder
      */
     private $Approved;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $path;
+//    /**
+//     * @ORM\Column(type="string", length=255)
+//     */
+//    private $path;
 
     /**
+     * @Gedmo\Timestampable (on="create")
      * @ORM\Column(type="datetime")
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Gedmo\Timestampable (on="update")
      */
     private $updatedAt;
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @var string
+     *
+     */
+    private $featured_image;
 
+    /**
+     * @Vich\UploadableField(mapping="featured_images",fileNameProperty="featured_image")
+     * @var File
+     */
+    private $imageFile;
     public function getId(): ?int
     {
         return $this->id;
@@ -141,39 +157,74 @@ class DrugOrder
         return $this;
     }
 
-    public function getPath(): ?string
-    {
-        return $this->path;
-    }
-
-    public function setPath(string $path): self
-    {
-        $this->path = $path;
-
-        return $this;
-    }
+//    public function getPath(): ?string
+//    {
+//        return $this->path;
+//    }
+//
+//    public function setPath(string $path): self
+//    {
+//        $this->path = $path;
+//
+//        return $this;
+//    }
 
     public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
+//    public function setCreatedAt(\DateTimeInterface $createdAt): self
+//    {
+//        $this->createdAt = $createdAt;
+//
+//        return $this;
+//    }
 
     public function getUpdatedAt(): ?\DateTimeInterface
     {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
+//    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
+//    {
+//        $this->updatedAt = $updatedAt;
+//
+//        return $this;
+//    }
+
+    public function getFeaturedImage()
     {
-        $this->updatedAt = $updatedAt;
+        return $this->featured_image;
+    }
+
+    public function setFeaturedImage(string $featured_image)
+    {
+        $this->featured_image = $featured_image;
 
         return $this;
+    }
+
+
+    /**
+     * @param mixed $image
+     *
+     */
+    public function setImageFile($image): void
+    {
+        $this->imageFile = $image;
+
+        if ($image) {
+            $this->updatedAt = new \DateTime('now');
+        }
+    }
+
+    /**
+     * @return mixed
+     *
+     */
+    public function getImageFile()
+    {
+        return $this->imageFile;
     }
 }

@@ -22,7 +22,7 @@
     <link rel="stylesheet" href={{ asset('css/residentForm.css') }}>
     {% block stylesheet %} {% endblock %}
 
-    <title>Smarty House {% block title %}{% endblock %}</title>
+    <title>SahtekAPP {% block title %}{% endblock %}</title>
 </head>
 <body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
 {# this is the navbar guys :D #}
@@ -44,14 +44,14 @@
                         <div class="col-lg-6">
                             <nav class="site-navigation text-right ml-auto " role="navigation">
                                 <ul class="site-menu main-menu js-clone-nav ml-auto d-none d-lg-block">
-{#                                    <li class="active"><a href="{{ path('home_in') }}"#}
+                                    <li class="active"><a href="#"
                                                           class="nav-link">Home</a></li>
                                     {% if is_granted("ROLE_OWNER") or is_granted("ROLE_ADMIN") %}
                                         <li class="active"><a href="{{ path('residentList') }}"
                                                               class="nav-link">Resident Space</a>
                                         </li>
                                     {% endif %}
-{#                                    <li class="active"><a href="{{ path('services') }}" class="nav-link">Services</a>#}
+                                    <li class="active"><a href="#" class="nav-link">Services</a>
                                     </li>
                                 </ul>
                             </nav>
@@ -72,11 +72,11 @@
                         <div class="col-lg-6">
                             <nav class="site-navigation text-left mr-auto " role="navigation">
                                 <ul class="site-menu main-menu js-clone-nav ml-auto d-none d-lg-block">
-{#                                    <li class="active"><a href="{{ path('aboutUsIn') }}" class="nav-link ">About</a>#}
+                                    <li class="active"><a href="#" class="nav-link ">About</a>
                                     </li>
-{#                                    <li class="active"><a href="{{ path('fos_user_profile_show') }}" class="nav-link">Profile</a>#}
+                                    <li class="active"><a href="#" class="nav-link">Profile</a>
                                     </li>
-{#                                    <li class="active"><a href="{{ path('fos_user_security_logout') }}"#}
+                                    <li class="active"><a href="#"
                                                           class="nav-link">
 {#                                            {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}#}
                                         </a>
@@ -101,21 +101,21 @@
             </button>
             <div class="col-lg-4 text-center">
                 <div class=" row">
-                    <em style="color: rosybrown !important;">Smarty House</em>
+                    <em style="color: rosybrown !important;">SahtekAPP</em>
                     {#                    <div class="col-1"> </div>#}
                     {#                    <div class="col-1"> </div>#}
                     <div class="col-1"></div>
                     <div class="col-1"></div>
                     <div class="col-5 text-white">
-                        {% if  app.user.username  is defined %}
+                        {% if  app.user.firstname  is defined %}
 
-                            Logged in: {{ app.user.username }}
+                            Logged in: {{ app.user.firstname }} {{ app.user.lastname }}
                         {% else %}  Logged in: New User
                         {% endif %}
                     </div>
                     <p style="text-align : center" class="col-1">
                         {% if app.user.path is defined %}
-                        <img src="{{ asset(app.user.path) }}" alt="{{ app.user.username }}" width="30px" height="30px"
+                        <img src="{{ asset(app.user.featured_image) }}" alt="{{ app.user.firstname }}" width="30px" height="30px"
                              class="rounded-circle">
 
                         <br>
@@ -176,8 +176,8 @@
                         <h2 class="footer-heading mb-4">Features</h2>
                         <ul class="list-unstyled">
                             <li><a href="#">About Us</a></li>
-{#                            <li><a href="{{ path('terms_of_use_in') }}">Terms of Use</a></li>#}
-{#                            <li><a href="{{ path('privacy_policy_in') }}">Privacy</a></li>#}
+                            <li><a href="#">Terms of Use</a></li>
+                            <li><a href="#">Privacy</a></li>
                             <li><a href="mailto: smartyhousenoreply@gmail.com">Contact Us</a></li>
                         </ul>
                         {#                        </div>#}
@@ -203,7 +203,7 @@
             </div>
         </div>
     </footer>
-    <p align="center">Copyrights : SmartyHouse Team 2020</p>
+    <p align="center">Copyrights : SahtekAPP Team 2021</p>
 
 </div>
 <script src={{ asset('js/jquery-3.3.1.min.js') }}></script>

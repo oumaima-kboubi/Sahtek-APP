@@ -2,9 +2,12 @@
 
 namespace App\Form;
 
+use App\Entity\City;
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -17,6 +20,22 @@ class RegistrationFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('firstname')
+            ->add('lastname')
+            ->add('birthDate')
+            ->add('featured_image')
+            ->add('solde')
+//            ->add('birthdate',null,array(
+//                'widget' => 'choice',
+//                'years' => range(1900, 2500),
+//            ))
+            ->add('cin', IntegerType::class)
+//            ->add('gender', ChoiceType::class, array(
+//                'choices' => ['F' => 'F', 'M' => 'M']
+//            ))
+            ->add('city', ChoiceType::class, array(
+                'choices' => ['Tunis' => 'Tunis', 'Bizerte' => 'Bizerte']
+            ))
             ->add('email')
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
@@ -42,8 +61,7 @@ class RegistrationFormType extends AbstractType
                         'max' => 4096,
                     ]),
                 ],
-            ])
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
