@@ -2,11 +2,14 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\BelongRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * @ApiResource
  * @ORM\Entity(repositoryClass=BelongRepository::class)
+ *
  */
 class Belong
 {
@@ -32,7 +35,7 @@ class Belong
      * @ORM\Column(type="decimal", precision=10, scale=0)
      */
     private $quantity;
-//whatt
+
     /**
      * @ORM\Column(type="boolean")
      */
@@ -52,6 +55,16 @@ class Belong
      * @ORM\Column(type="decimal", precision=10, scale=0)
      */
     private $pourcentage;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $createdAt;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $updatedAt;
 
     public function getId(): ?int
     {
@@ -138,6 +151,30 @@ class Belong
     public function setPourcentage(string $pourcentage): self
     {
         $this->pourcentage = $pourcentage;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }

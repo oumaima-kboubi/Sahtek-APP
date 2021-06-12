@@ -6,11 +6,12 @@ use App\Repository\PersonRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=PersonRepository::class)
  */
-class Person
+class Person implements UserInterface
 {
     /**
      * @ORM\Id
@@ -40,9 +41,9 @@ class Person
     private $city;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="json")
      */
-    private $role;
+    private $roles = [];
 
     /**
      * @ORM\ManyToOne(targetEntity=City::class, inversedBy="people")
@@ -81,9 +82,10 @@ class Person
     private $Path;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @var string The hashed password
+     * @ORM\Column(type="string")
      */
-    private $Password;
+    private $password;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -94,6 +96,11 @@ class Person
      * @ORM\OneToMany(targetEntity=CareTakerOrder::class, mappedBy="client")
      */
     private $orders;
+
+    /**
+     * @ORM\Column(type="string", length=255 ,unique=true)
+     */
+    private $email;
 
     public function __construct()
     {
@@ -319,7 +326,11 @@ class Person
 
         return $this;
     }
-
+    /**
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     */
     public function getUsername(): ?string
     {
         return $this->username;
@@ -358,6 +369,57 @@ class Person
                 $order->setClient(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    /**
+     * Returning a salt is only needed, if you are not using a modern
+     * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
+     *
+     * @see UserInterface
+     */
+    public function getSalt(): ?string
+    {
+        return null;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function eraseCredentials()
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
 
         return $this;
     }

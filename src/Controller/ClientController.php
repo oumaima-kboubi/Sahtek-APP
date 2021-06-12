@@ -10,12 +10,43 @@ use Symfony\Component\Routing\Annotation\Route;
 class ClientController extends AbstractController
 {
     /**
-     * @Route("/client", name="client")
+     * @Route("/registermee", name="registermeee")
      */
-    public function index(): Response
+    public function register(): Response
     {
-        $repository = $this->getDoctrine()->getRepository(Client::class);
-        $client = $repository->findAll();
-        return $this->render('client/index.html.twig',$client);
+
+        return $this->render('register.html.twig');
+    }
+    /**
+     * @Route("/basee", name="basee")
+     */
+    public function basee(): Response
+    {
+
+        return $this->render('base.html.twig');
+    }
+    /**
+     * @Route("/home", name="home")
+     */
+    public function home(): Response
+    {
+
+        return $this->render('home.html.twig');
+    }
+    /**
+     * @Route("/try", name="try")
+     */
+    public function tryme(): Response
+    {
+
+        return $this->render('bundles/registration/register_content.html.twig');
+    }
+    /**
+     * @Route("/logg", name="logg")
+     */
+    public function logg(): Response
+    {
+
+        return $this->render('security/login.html.twig');
     }
 }

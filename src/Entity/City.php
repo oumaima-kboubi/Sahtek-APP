@@ -29,9 +29,15 @@ class City
      */
     private $people;
 
+    /**
+     * @ORM\OneToMany(targetEntity=User::class, mappedBy="adress")
+     */
+    private $users;
+
     public function __construct()
     {
         $this->people = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -75,6 +81,36 @@ class City
             // set the owning side to null (unless already changed)
             if ($person->getAdress() === $this) {
                 $person->setAdress(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): self
+    {
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
+            $user->setAdress($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): self
+    {
+        if ($this->users->removeElement($user)) {
+            // set the owning side to null (unless already changed)
+            if ($user->getAdress() === $this) {
+                $user->setAdress(null);
             }
         }
 
