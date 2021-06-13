@@ -7,7 +7,7 @@
     {#        {% include 'fragments/carousel.html.twig' %}#}
     {#        {% include 'fragments/poppingOptions.html.twig' %}#}
 
-    {% if is_granted("ROLE_USER") %}
+    {% if is_granted("ROLE_CLIENT") %}
 
         {% include 'basefront/fragments/carousel.html.twig' %}
 
@@ -15,7 +15,13 @@
         {% include 'basefront/fragments/sideNote.html.twig' %}
         {% include 'basefront/fragments/quotes.html.twig' %}
 
-    {% elseif is_granted("ROLE_ADMIN") %}
+    {% elseif is_granted("ROLE_PHARMACY") %}
+        {% include 'basefront/fragments/carousel.html.twig' %}
+        {% include 'basefront/fragments/poppingOptions.html.twig' %}
+        {% include 'basefront/fragments/sideNote.html.twig' %}
+        {% include 'basefront/fragments/quotes.html.twig' %}
+
+{% elseif is_granted("ROLE_CARETAKER") %}
         {% include 'basefront/fragments/carousel.html.twig' %}
         {% include 'basefront/fragments/poppingOptions.html.twig' %}
         {% include 'basefront/fragments/sideNote.html.twig' %}

@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 {% block title %} Edit Profile {% endblock %}
 {% block body %}
-  {% if is_granted("ROLE_OWNER") or is_granted("ROLE_RESIDENT") or is_granted("ROLE_ADMIN") %}
+  {% if is_granted("ROLE_CLIENT") or is_granted("ROLE_PHARMACY") or is_granted("ROLE_CARETAKER") %}
 
     <main class="d-flex align-items-center min-vh-70 py-3 py-md-0">
         <div class="container" style="padding-bottom: 40px ; padding-top: 65px">
@@ -28,7 +28,7 @@
         <input type="submit" class=" btn btn-info rounded " style="align-items: center"
                value="Edit"/>
         <button class="btn btn-dark rounded" type="button"
-                onclick=" location.href='{{ path('fos_user_profile_show') }}';">Cancel
+                onclick=" location.href='{{ path('routing.show') }}';">Cancel
         </button>
     </div>
     {{ form_end(form) }}

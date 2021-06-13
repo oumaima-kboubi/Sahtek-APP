@@ -20,12 +20,12 @@
                                 <nav class="site-navigation text-right ml-auto " role="navigation">
                                     <ul class="site-menu main-menu js-clone-nav ml-auto d-none d-lg-block">
                                         <li class="active">
-                                            <a href="#" {# {{path('lobby')}} #}
+                                            <a href="{{ path('routing.lobby') }}" {# {{path('lobby')}} #}
                                                               class="nav-link">Lobby</a></li>
-                                        <li class="active"><a href="#"
+                                        <li class="active"><a href="{{ path('app_register') }}"
                                                               class="nav-link">Register</a>
                                         </li>
-                                        <li class="active"><a href="#"
+                                        <li class="active"><a href="{{ path('app_login') }}"
                                                               class="nav-link">Log In</a></li>
                                     </ul>
                                 </nav>
@@ -48,7 +48,7 @@
                                     <ul class="site-menu main-menu js-clone-nav ml-auto d-none d-lg-block">
                                         <li class="active"><a href="#"
                                                               class="nav-link ">About</a></li>
-                                                                                <li class="active"><a href="blog.html" class="nav-link">Blog</a></li>
+{#                                                                                <li class="active"><a href="#" class="nav-link">Blog</a></li>#}
                                         <li class="active"><a href="mailto: sahtekapp.noreply@gmail.com"
                                                               class="nav-link">Contact</a></li>
                                     </ul>

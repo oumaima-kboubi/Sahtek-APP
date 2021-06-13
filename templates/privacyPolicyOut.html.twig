@@ -23,14 +23,14 @@
     <title>Smarty House {% block title %}Privacy Policy{% endblock %}</title>
 </head>
 <body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
-{% include 'fragments/navbar.html.twig' %}
+{% include 'basefront/fragments/navbar.html.twig' %}
 
         <main class="d-flex align-items-center min-vh-70 py-3 py-md-0">
             <div class="container" style="padding-bottom: 40px ; padding-top: 65px">
                 <div class="card" style=" padding: 40px; border-radius: 10px;">
                     <h1 class="text-center" style="color: rosybrown">Privacy Policy</h1>
                     <br>
-                    <p>This <i>Privacy Policy</i> applies to <i>SmartyHouse.com</i> . We respect your privacy and are
+                    <p>This <i>Privacy Policy</i> applies to <i>SahtekAPP</i> . We respect your privacy and are
                         committed to protecting personally
                         identifiable information you may provide us through the Website. We have adopted this privacy
                         policy to explain what information may be collected on our Website, how we
@@ -209,14 +209,14 @@
                     <p>You may contact us as provided below if: (a) you have questions or comments about our Privacy
                         Policy; (b) wish to make corrections to any personally identifiable information you have
                         provided; or (c) want to opt-out from receiving future promotional correspondence, including
-                        emails, from us or our affiliated companies; <a href="mailto: smartyhousenoreply@gmail.com"> smartyhousenorelpy@gmail.com</a>
+                        emails, from us or our affiliated companies; <a href="mailto: sahtekapp.noreply@gmail.com"> sahtekapp.noreply@gmail.com</a>
 
                         We will respond to your request and, if applicable and appropriate, make the requested change in
                         our active databases as soon as reasonably practicable. Please note that we may not be able to
                         fulfill certain requests while allowing you access to certain benefits, features and services
                         offered on or through our Website.</p>
                     <br>
-                    <a class="text-right text-info" href="{{ path('home_out') }}">GO BACK HOME</a>
+                    <a class="text-right text-info" href="{{ path('routing.homeOut') }}">GO BACK HOME</a>
                 </div>
             </div>
         </main>
@@ -224,4 +224,4 @@
 <script src={{ asset('js/bootstrap.min.js') }}></script> {# navbar works#}
 <script src={{ asset('js/aos.js') }}></script> {#for carousel#}
 <script src={{ asset('js/main.js') }}></script> {#for carousel#}
-{% include 'fragments/footer.html.twig' %}
+{% include 'basefront/fragments/footer.html.twig' %}

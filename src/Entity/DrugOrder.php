@@ -27,15 +27,7 @@ class DrugOrder
      */
     private $Drug;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Person::class, inversedBy="drugOrders")
-     */
-    private $client;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Person::class, inversedBy="drugOrders")
-     */
-    private $pharmacy;
 
     /**
      * @ORM\Column(type="decimal", precision=10, scale=0)
@@ -80,6 +72,31 @@ class DrugOrder
      * @var File
      */
     private $imageFile;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $pending;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $description;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $deleted;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="drugOrders")
+     */
+    private $client;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="drugOrders")
+     */
+    private $pharmacy;
     public function getId(): ?int
     {
         return $this->id;
@@ -93,30 +110,6 @@ class DrugOrder
     public function setDrug(?Drug $Drug): self
     {
         $this->Drug = $Drug;
-
-        return $this;
-    }
-
-    public function getClient(): ?Person
-    {
-        return $this->client;
-    }
-
-    public function setClient(?Person $client): self
-    {
-        $this->client = $client;
-
-        return $this;
-    }
-
-    public function getPharmacy(): ?Person
-    {
-        return $this->pharmacy;
-    }
-
-    public function setPharmacy(?Person $pharmacy): self
-    {
-        $this->pharmacy = $pharmacy;
 
         return $this;
     }
@@ -157,41 +150,18 @@ class DrugOrder
         return $this;
     }
 
-//    public function getPath(): ?string
-//    {
-//        return $this->path;
-//    }
-//
-//    public function setPath(string $path): self
-//    {
-//        $this->path = $path;
-//
-//        return $this;
-//    }
 
     public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
     }
 
-//    public function setCreatedAt(\DateTimeInterface $createdAt): self
-//    {
-//        $this->createdAt = $createdAt;
-//
-//        return $this;
-//    }
 
     public function getUpdatedAt(): ?\DateTimeInterface
     {
         return $this->updatedAt;
     }
 
-//    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
-//    {
-//        $this->updatedAt = $updatedAt;
-//
-//        return $this;
-//    }
 
     public function getFeaturedImage()
     {
@@ -226,5 +196,65 @@ class DrugOrder
     public function getImageFile()
     {
         return $this->imageFile;
+    }
+
+    public function getPending(): ?bool
+    {
+        return $this->pending;
+    }
+
+    public function setPending(bool $pending): self
+    {
+        $this->pending = $pending;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function getDeleted(): ?bool
+    {
+        return $this->deleted;
+    }
+
+    public function setDeleted(bool $deleted): self
+    {
+        $this->deleted = $deleted;
+
+        return $this;
+    }
+
+    public function getClient(): ?User
+    {
+        return $this->client;
+    }
+
+    public function setClient(?User $client): self
+    {
+        $this->client = $client;
+
+        return $this;
+    }
+
+    public function getPharmacy(): ?User
+    {
+        return $this->pharmacy;
+    }
+
+    public function setPharmacy(?User $pharmacy): self
+    {
+        $this->pharmacy = $pharmacy;
+
+        return $this;
     }
 }

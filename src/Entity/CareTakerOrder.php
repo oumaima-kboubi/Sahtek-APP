@@ -19,15 +19,8 @@ class CareTakerOrder
      */
     private $id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Person::class, inversedBy="carerTakerOrders")
-     */
-    private $caretaker;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Person::class, inversedBy="carerTakerOrders")
-     */
-    private $pharmacy;
+
 
     /**
      * @ORM\Column(type="date")
@@ -54,10 +47,6 @@ class CareTakerOrder
      */
     private $approved;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Person::class, inversedBy="orders")
-     */
-    private $client;
 
     /**
      * @Gedmo\Timestampable (on="create")
@@ -71,34 +60,36 @@ class CareTakerOrder
      */
     private $updatedAt;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $pending;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $deleted;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="careTakerOrders")
+     */
+    private $client;
+
+//    /**
+//     * @ORM\ManyToOne(targetEntity=user::class, inversedBy="careTaker")
+//     */
+//    private $pharmacy;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="careTakers")
+     */
+    private $caretaker;
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getCaretaker(): ?Person
-    {
-        return $this->caretaker;
-    }
-
-    public function setCaretaker(?Person $caretaker): self
-    {
-        $this->caretaker = $caretaker;
-
-        return $this;
-    }
-
-    public function getPharmacy(): ?Person
-    {
-        return $this->pharmacy;
-    }
-
-    public function setPharmacy(?Person $pharmacy): self
-    {
-        $this->pharmacy = $pharmacy;
-
-        return $this;
-    }
 
     public function getDay(): ?\DateTimeInterface
     {
@@ -160,29 +151,19 @@ class CareTakerOrder
         return $this;
     }
 
-    public function getClient(): ?Person
-    {
-        return $this->client;
-    }
 
-    public function setClient(?Person $client): self
-    {
-        $this->client = $client;
-
-        return $this;
-    }
 
     public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
     }
 
-//    public function setCreatedAt(\DateTimeInterface $createdAt): self
-//    {
-//        $this->createdAt = $createdAt;
-//
-//        return $this;
-//    }
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
 
     public function getUpdatedAt(): ?\DateTimeInterface
     {
@@ -195,4 +176,64 @@ class CareTakerOrder
 //
 //        return $this;
 //    }
+
+public function getPending(): ?bool
+{
+    return $this->pending;
+}
+
+public function setPending(bool $pending): self
+{
+    $this->pending = $pending;
+
+    return $this;
+}
+
+public function getDeleted(): ?bool
+{
+    return $this->deleted;
+}
+
+public function setDeleted(bool $deleted): self
+{
+    $this->deleted = $deleted;
+
+    return $this;
+}
+
+public function getClient(): ?User
+{
+    return $this->client;
+}
+
+public function setClient(?User $client): self
+{
+    $this->client = $client;
+
+    return $this;
+}
+
+//public function getPharmacy(): ?user
+//{
+//    return $this->pharmacy;
+//}
+//
+//public function setPharmacy(?user $pharmacy): self
+//{
+//    $this->pharmacy = $pharmacy;
+//
+//    return $this;
+//}
+
+public function getCaretaker(): ?User
+{
+    return $this->caretaker;
+}
+
+public function setCaretaker(?User $caretaker): self
+{
+    $this->caretaker = $caretaker;
+
+    return $this;
+}
 }

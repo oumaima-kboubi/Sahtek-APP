@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hire a Care Taker{% endblock %}
+
+{% block body %}
+    <br>
+    <br>
+    <br>
+    <br>
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+    {% for message in app.flashes('error') %}
+        <div class="alert alert-alert">
+            {{ message }}
+        </div>
+    {% endfor %}
+    <div class="row">
+        {% if orders is defined %}
+            {% for order in orders %}
+                <br>
+                <br>
+                <div class="col-sm-6">
+                <div class="card text-center">
+                    <div class="card-header">
+                        This Order Starts at : {{ order.startTime|date("F jS \\a\\t g:ia") }}
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title"></h5>
+                        <p class="card-text">Gets Finished At : {{ order.finishTime|date("F jS \\a\\t g:ia") }}</p>
+                        <a href="{{ path('approve.taker.orders', {'id' :  order.id }) }}" class="btn btn-info">Approve Order</a>
+                        <a href="{{ path('refuse.taker.orders', {'id' :  order.id }) }}" class="btn btn-danger">Refuse Order</a>
+                    </div>
+                    <div class="card-footer text-muted">
+                        {{ order.price }}$
+                    </div>
+                </div>
+                </div>
+                <br>
+                <br>
+            {% endfor %}
+        {% endif %}
+    </div>
+    <br>
+    <br>
+    <br>
+{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/drug.css') }}">
+    <link rel="stylesheet" href="{{ asset('bootstrap.css') }}" >
+{% endblock %}

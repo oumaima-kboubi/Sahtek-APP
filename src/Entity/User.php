@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\HttpFoundation\File\File;
@@ -68,11 +70,7 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=255)
      */
     private $lastName;
-//     * @ORM\ManyToOne(targetEntity=City::class, inversedBy="users")
-//    /**
-//   * @ORM\Column(type="string", length=255)
-//     */
-//    private $adress;
+
 
     /**
      * @ORM\Column(type="date")
@@ -127,6 +125,60 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=255)
      */
     private $city;
+
+    /**
+     * @ORM\Column(type="string", length=2)
+     */
+    private $gender;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $role;
+
+    /**
+     * @ORM\OneToOne(targetEntity=DrugStock::class, mappedBy="pharmacy", cascade={"persist", "remove"})
+     */
+    private $drugStock;
+
+    /**
+     * @ORM\OneToMany(targetEntity=CareTakerOrder::class, mappedBy="client")
+     */
+    private $careTakerOrders;
+
+    /**
+     * @ORM\OneToMany(targetEntity=CareTakerOrder::class, mappedBy="pharmacy")
+     */
+    private $careTaker;
+
+    /**
+     * @ORM\OneToMany(targetEntity=CareTakerOrder::class, mappedBy="caretaker")
+     */
+    private $careTakers;
+
+    /**
+     * @ORM\OneToMany(targetEntity=DrugOrder::class, mappedBy="client")
+     */
+    private $drugOrders;
+
+
+
+
+    public function __construct()
+    {
+//        parent::__construct();
+        $this->setRoles(["ROLE_USER"]);
+        $this->setFeaturedImage('images/avatar.jpeg');
+        $this->setSolde(0);
+        $this->careTakerOrders = new ArrayCollection();
+        $this->careTakers = new ArrayCollection();
+        $this->drugOrders = new ArrayCollection();
+
+
+    }
+
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -273,17 +325,6 @@ class User implements UserInterface
         return $this;
     }
 
-//    public function getAdress(): ?string
-//    {
-//        return $this->adress;
-//    }
-//
-//    public function setAdress(string $adress): self
-//    {
-//        $this->adress = $adress;
-//
-//        return $this;
-//    }
 
     public function getAge(): ?int
     {
@@ -373,4 +414,144 @@ class User implements UserInterface
 
         return $this;
     }
+
+    public function getGender(): ?string
+    {
+        return $this->gender;
+    }
+
+    public function setGender(string $gender): self
+    {
+        $this->gender = $gender;
+
+        return $this;
+    }
+
+    public function getRole(): ?string
+    {
+        return $this->role;
+    }
+
+    public function setRole(string $role): self
+    {
+        $this->role = $role;
+
+        return $this;
+    }
+
+    public function getDrugStock(): ?DrugStock
+    {
+        return $this->drugStock;
+    }
+
+    public function setDrugStock(?DrugStock $drugStock): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($drugStock === null && $this->drugStock !== null) {
+            $this->drugStock->setPharmacy(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($drugStock !== null && $drugStock->getPharmacy() !== $this) {
+            $drugStock->setPharmacy($this);
+        }
+
+        $this->drugStock = $drugStock;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|CareTakerOrder[]
+     */
+    public function getCareTakerOrders(): Collection
+    {
+        return $this->careTakerOrders;
+    }
+
+    public function addCareTakerOrder(CareTakerOrder $careTakerOrder): self
+    {
+        if (!$this->careTakerOrders->contains($careTakerOrder)) {
+            $this->careTakerOrders[] = $careTakerOrder;
+            $careTakerOrder->setClient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCareTakerOrder(CareTakerOrder $careTakerOrder): self
+    {
+        if ($this->careTakerOrders->removeElement($careTakerOrder)) {
+            // set the owning side to null (unless already changed)
+            if ($careTakerOrder->getClient() === $this) {
+                $careTakerOrder->setClient(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|CareTakerOrder[]
+     */
+    public function getCareTakers(): Collection
+    {
+        return $this->careTakers;
+    }
+
+    public function addCareTaker(CareTakerOrder $careTaker): self
+    {
+        if (!$this->careTakers->contains($careTaker)) {
+            $this->careTakers[] = $careTaker;
+            $careTaker->setCaretaker($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCareTaker(CareTakerOrder $careTaker): self
+    {
+        if ($this->careTakers->removeElement($careTaker)) {
+            // set the owning side to null (unless already changed)
+            if ($careTaker->getCaretaker() === $this) {
+                $careTaker->setCaretaker(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|DrugOrder[]
+     */
+    public function getDrugOrders(): Collection
+    {
+        return $this->drugOrders;
+    }
+
+    public function addDrugOrder(DrugOrder $drugOrder): self
+    {
+        if (!$this->drugOrders->contains($drugOrder)) {
+            $this->drugOrders[] = $drugOrder;
+            $drugOrder->setClient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDrugOrder(DrugOrder $drugOrder): self
+    {
+        if ($this->drugOrders->removeElement($drugOrder)) {
+            // set the owning side to null (unless already changed)
+            if ($drugOrder->getClient() === $this) {
+                $drugOrder->setClient(null);
+            }
+        }
+
+        return $this;
+    }
+
+
+
+
 }

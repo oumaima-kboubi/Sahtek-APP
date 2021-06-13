@@ -1,0 +1,129 @@
+{% extends 'base.html.twig' %}
+{% block title %} Profile {% endblock %}
+    {% block body %}
+        <div style=" padding : 20px ">
+            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }} |
+                <a href="{{ path('app_logout') }}">
+                    {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
+                </a>
+                {#            {% else %}#}
+                {#                <a href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>#}
+            {% endif %}
+        </div>
+
+        {#        {% if app.request.hasPreviousSession %}#}
+        {#            {% for type, messages in app.session.flashbag.all() %}#}
+        {#                {% for message in messages %}#}
+        {#                    <div class="flash-{{ type }}">#}
+        {#                        {{ message }}#}
+        {#                    </div>#}
+        {#                {% endfor %}#}
+        {#            {% endfor %}#}
+        {#        {% endif %}#}
+
+{#        <div>#}
+{#            {% block fos_user_content %}#}
+{#            {% endblock fos_user_content %}#}
+{#        </div>#}
+
+    {% if is_granted("ROLE_CLIENT") or is_granted("ROLE_PHARMACY") or is_granted("ROLE_CARETAKER") or is_granted("ROLE_ADMIN") %}
+        <main class="d-flex align-items-center min-vh-70 py-3 py-md-0">
+            <div class="container" style="padding-bottom: 40px">
+
+                <div class="card" style=" padding: 40px; border-radius: 10px">
+                    <div class="fos_user_user_show">
+                        <h1 class="logo text-info" style=" text-align: center ; font-size: 4em">Profile</h1> <br><br>
+                        <p style="text-align : center">
+                            <img src="{{ asset(app.user.featuredimage) }}" alt="{{ app.user.username }}" width="200px" height="200px" class="rounded-circle"  > <br>
+                        </p>
+                        {% if app.request.hasPreviousSession %}
+                            {% for type, messages in app.session.flashbag.all() %}
+                                {% for message in messages %}
+                                    <div class="flash-{{ type }} alert alert-success">
+                                        {{ message }}
+                                    </div>
+                                {% endfor %}
+                            {% endfor %}
+                        {% endif %}
+                        <br>
+{#                        <div class="row">#}
+{#                            <div class="col-5 text-info"><p><b>{{ 'profile.show.username'|trans }}:</b></p></div>#}
+{#                            <div class="col-7"><p>{{ app.user.username }}</p></div>#}
+{#                        </div>#}
+                        <div class="row">
+                            <div class="col-5 text-info"><p><b>Firstname:</b></p></div>
+                            <div class="col-7"><p>{{ app.user.firstname }}</p></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-5 text-info"><p><b>Lastname:</b></p></div>
+                            <div class="col-7"><p>{{ app.user.lastname }}</p></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-5 text-info"><p><b>Email:</b></p></div>
+                            <div class="col-7"><p>{{ app.user.email }}</p></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-5 text-info"><p><b>Cin:</b></p></div>
+                            <div class="col-7"><p>{{ app.user.cin }}</p></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-5 text-info"><p><b>Birthdate:</b></p></div>
+                            <div class="col-7"><p>{{ app.user.birthdate | date('d/m/Y') }}</p></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-5 text-info"><p><b>Gender:</b></p></div>
+                            <div class="col-7"><p>{{ app.user.gender }}</p></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-5 text-info"><p><b>City:</b></p></div>
+                            <div class="col-7"><p>{{ app.user.city}}</p></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-5 text-info"><p><b>Solde:</b></p></div>
+                            <div class="col-7"><p>{{ app.user.solde}}</p></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-5 text-info"><p><b>Role:</b></p></div>
+                            {% if is_granted("ROLE_PHARMACY") %}
+                            <div class="col-7"><p>PHARMACY</p></div>
+                                {% endif %}
+                            {% if is_granted("ROLE_CLIENT") %}
+                            <div class="col-7"><p>CLIENT</p></div>
+                                {% endif %}
+                            {% if is_granted("ROLE_CARETAKER") %}
+                            <div class="col-7"><p>CARETAKER</p></div>
+                                {% endif %}
+                        </div>
+{#                        <div class="row">#}
+{#                            <div class="col-5 text-info"><p><b>House ID:</b></p></div>#}
+{#                            <div class="col-7"><p>{{ app.user.houseId }}</p></div>#}
+{#                        </div>#}
+                    </div>
+                    <br>
+                    <br>
+                    <div class="btn-group-toggle text-center">
+{#                        <button class="btn btn-dark rounded" type="button" style="width: -moz-fit-content"#}
+{#                                onclick=" location.href='# ';">Edit Login Credentials#}
+{#                        </button>#}
+{#                        <button class="btn btn-dark rounded" type="button"#}
+{#                                onclick=" location.href='#';">Change Password#}
+{#                        </button>#}
+                        <button class="btn btn-dark rounded" type="button"
+                                onclick=" location.href='{{ path('app_edit') }}';">Edit Personal Credentials
+                        </button>
+                        <button class="btn btn-danger rounded" type="button"
+                                onclick=" location.href='{{ path('routing.delete') }}';">Delete Account
+                        </button>
+                        {#                        <button class="btn btn-dark rounded" type="button"#}
+                        {#                                onclick=" location.href='{{ path('fos_user_change_password') }}';">CHANGE PASSWORD#}
+                        {#                        </button>#}
+                    </div>
+                    <br>
+                    <a class="text-right text-info" href="{{ path('routing.homeIn') }}"><b>GO BACK HOME</b></a>
+                </div>
+            </div>
+        </main>
+
+    {% endif %}
+{% endblock %}

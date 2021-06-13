@@ -15,6 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
+use function PHPUnit\Framework\equalTo;
 
 class RegistrationController extends AbstractController
 {
@@ -36,6 +37,18 @@ class RegistrationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             // encode the plain password
+            if($user->getRole()=="ROLE_CLIENT" ){
+
+                $user->setRoles(["ROLE_CLIENT"]);
+            }
+            elseif($user->getRole()=="ROLE_PHARMACY" ){
+
+                $user->setRoles(["ROLE_PHARMACY"]);
+            }
+            elseif($user->getRole()=="ROLE_CARETAKER"){
+
+                $user->setRoles(["ROLE_CARETAKER"]);
+            }
             $user->setPassword(
                 $passwordEncoder->encodePassword(
                     $user,

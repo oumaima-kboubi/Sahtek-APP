@@ -23,7 +23,7 @@
     <title>Smarty House {% block title %}Terms Of Use{% endblock %}</title>
 </head>
 <body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
-{% include 'fragments/navbar.html.twig' %}
+{% include 'basefront/fragments/navbar.html.twig' %}
         <main class="d-flex align-items-center min-vh-70 py-3 py-md-0">
             <div class="container" style="padding-bottom: 40px ; padding-top: 65px">
                 <div class="card" style=" padding: 40px; border-radius: 10px;">
@@ -78,7 +78,7 @@
                         copyright and trademark laws and various other intellectual property rights and unfair
                         competition laws of the Tunisia, foreign jurisdictions, and international conventions.
                         <br>
-                        The Content and the Marks are provided on the Site “Smarty House” for your information and
+                        The Content and the Marks are provided on the Site “SahtekAPP” for your information and
                         personal use
                         only. Except as expressly provided in these Terms and Conditions, no part of the Site and no
                         Content or Marks may be copied, reproduced, aggregated, republished, uploaded, posted, publicly
@@ -530,7 +530,7 @@
                     <br>
                     <h3>PRIVACY POLICY</h3>
                     <p>We care about data privacy and security. Please review our Privacy Policy posted on
-                        the <a href="{{ path('privacy_policy_in') }}">Site</a>>. By using the Site, you agree to be
+                        the <a href="{{ path('routing.privacyOut') }}">Site</a>>. By using the Site, you agree to be
                         bound by our Privacy Policy, which is incorporated
                         into these Terms and Conditions. Please be advised the Site is hosted in the United States.
 
@@ -668,10 +668,10 @@
                     <h3>CONTACT US</h3>
                     <p>In order to resolve a complaint regarding the Site or to receive further information regarding use of the Site, please contact us at:</p>
                     <br>
-                    <a href="mailto: smartyhousenoreply@gmail.com"> smartyhousenorelpy@gmail.com</a>
+                    <a href="mailto: sahtekapp.noreply@gmail.com"> sahtekapp.norelpy@gmail.com</a>
 
                     <br>
-                    <a class="text-right text-info" href="{{ path('home_out') }}">GO BACK HOME</a>
+                    <a class="text-right text-info" href="{{ path('routing.homeOut') }}">GO BACK HOME</a>
                 </div>
             </div>
         </main>
@@ -679,4 +679,4 @@
         <script src={{ asset('js/bootstrap.min.js') }}></script> {# navbar works#}
         <script src={{ asset('js/aos.js') }}></script> {#for carousel#}
         <script src={{ asset('js/main.js') }}></script> {#for carousel#}
-{% include 'fragments/footer.html.twig' %}
+{% include 'basefront/fragments/footer.html.twig' %}

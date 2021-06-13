@@ -4,44 +4,46 @@
             <div class="row mb-5 align-items-center">
                 <div class="col-md-7">
                     <br>
-                    <h2 class="heading-39291 mb-0" style=" color: rosybrown">What We Do</h2>
+                    <h2 class="heading-39291 mb-0" style=" color: rosybrown">What We Offer</h2>
                 </div>
             </div>
             <div class="row">
-
+                {% if is_granted("ROLE_CLIENT")%}
                 <div class="col-md-6 mb-4 col-lg-4" data-aos="fade-up" data-aos-delay="100">
                     <div class="service-29193 text-center">
               <span class="img-wrap mb-5">
                 <img src={{ asset('fonts/flaticon/svg/temperature.svg') }} alt="Image" class="img-fluid">
               </span>
-{#                        <h3 class="mb-4"><a href="{{ path('temperature') }}">Temperature</a></h3>#}
-                        <p>Check your house temperature
+                        <h3 class="mb-4"><a href="#">Pharmacies</a></h3>
+                        <p>Check all the pharmacies nearby
                             .</p>
                         <br>
+                        <br>
                     </div>
-                </div>{#temperature#}
+                </div>{#pharmacies#}
                 <div class="col-md-6 mb-4 col-lg-4" data-aos="fade-up" data-aos-delay="200">
                     <div class="service-29193 text-center">
               <span class="img-wrap mb-5">
                 <img src={{ asset('fonts/flaticon/svg/lightBulb.svg') }} alt="Image" class="img-fluid">
               </span>
-{#                        <h3 class="mb-4"><a href="{{ path('lighting') }}">Lightning</a></h3>#}
-                        <p>Control the lightning
+                        <h3 class="mb-4"><a href="#">Drugs</a></h3>
+                        <p>List all the drugs you are looking for
                             .</p>
                         <br>
+                        <br>
                     </div>
-                </div> {#lightning#}
+                </div> {#Drugs#}
                 <div class="col-md-6 mb-4 col-lg-4" data-aos="fade-up" data-aos-delay="200">
                     <div class="service-29193 text-center">
               <span class="img-wrap mb-5">
                 <img src={{ asset('fonts/flaticon/svg/camera.svg') }} alt="Image" class="img-fluid">
               </span>
-{#                        <h3 class="mb-4"><a href="{{ path('camera') }}">Camera</a></h3>#}
-                        <p>check your house cameras
+                        <h3 class="mb-4"><a href="#">Order Drugs</a></h3>
+                        <p>check your orders and make new ones
                             .</p>
                         <br>
                     </div>
-                </div>{#camera#}
+                </div>{#order Drugs#}
 
 
                 <div class="col-md-6 mb-4 col-lg-4" data-aos="fade-up" data-aos-delay="200">
@@ -49,34 +51,109 @@
               <span class="img-wrap mb-5">
                 <img src={{ asset('fonts/flaticon/svg/statics.svg') }} alt="Image" class="img-fluid">
               </span>
-{#                        <h3 class="mb-4"><a href="{{ path('chart_news') }}">Statics</a></h3>#}
-                        <p>Get all your house statics
+                        <h3 class="mb-4"><a href="{{ path('city.afficher', { 'place' : 'caretaker.affich'}) }}">Order CareTaker</a></h3>
+                        <p>Check the list of available caretakers
                             .</p>
                         <br>
+                        <br>
                     </div>
-                </div>{#statics#}
+                </div>{#caretakers List#}
                 <div class="col-md-6 mb-4 col-lg-4" data-aos="fade-up" data-aos-delay="">
                     <div class="service-29193 text-center">
               <span class="img-wrap mb-5">
                 <img src={{ asset('fonts/flaticon/svg/004-blueprint.svg') }} alt="Image" class="img-fluid">
               </span>
-{#                        <h3 class="mb-4"><a href="{{ path('history') }}">History</a></h3>#}
-                        <p>Check your house history of usage
+                        <h3 class="mb-4"><a href="{{ path('pending.taker',{ 'id' : app.user.id}) }}">Pending Caretaker Orders</a></h3>
+                        <p>Check your orders
                             .</p>
                         <br>
                     </div>
-                </div> {# history#}
+                </div> {# Order Caretaker#}
                 <div class="col-md-6 mb-4 col-lg-4" data-aos="fade-up" data-aos-delay="100">
                     <div class="service-29193 text-center">
               <span class="img-wrap mb-5">
                 <img src={{ asset('fonts/flaticon/svg/sensors.svg') }} alt="Image" class="img-fluid">
               </span>
-{#                        <h3 class="mb-4"><a href="{{ path('security') }}">Security</a></h3>#}
-                        <p>Monitor your house security
+                        <h3 class="mb-4"><a href="{{ path('histo.consult.taker',{'id':app.user.id }) }}">History</a></h3>
+                        <p>Check your usage history
+                            .</p>
+                        <br>
+                        <br>
+                    </div>
+                </div> {#history#}
+                {% elseif is_granted("ROLE_CARETAKER")%}
+                <div class="col-md-6 mb-4 col-lg-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="service-29193 text-center">
+              <span class="img-wrap mb-5">
+                <img src={{ asset('fonts/flaticon/svg/statics.svg') }} alt="Image" class="img-fluid">
+              </span>
+                        <h3 class="mb-4"><a href="{{ path('consult.taker.orders', {'id': app.user.id}) }}">Pending Orders</a></h3>
+                        <p>Check Your pending Orders.
+                            .</p>
+                        <br>
+                        <br>
+                    </div>
+                </div>{#caretakers List#}
+                <div class="col-md-6 mb-4 col-lg-4" data-aos="fade-up" data-aos-delay="">
+                    <div class="service-29193 text-center">
+              <span class="img-wrap mb-5">
+                <img src={{ asset('fonts/flaticon/svg/004-blueprint.svg') }} alt="Image" class="img-fluid">
+              </span>
+                        <h3 class="mb-4"><a href="#">Order caretaker</a></h3>
+                        <p>Check your orders and make new ones
                             .</p>
                         <br>
                     </div>
-                </div> {#security#}
+                </div> {# Order Caretaker#}
+                <div class="col-md-6 mb-4 col-lg-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="service-29193 text-center">
+              <span class="img-wrap mb-5">
+                <img src={{ asset('fonts/flaticon/svg/sensors.svg') }} alt="Image" class="img-fluid">
+              </span>
+                        <h3 class="mb-4"><a href="{#  #}">History</a></h3>
+                        <p>Check your usage history
+                            .</p>
+                        <br>
+                        <br>
+                    </div>
+                </div> {#history#}
+                {% elseif is_granted("ROLE_PHARMACY")%}
+                <div class="col-md-6 mb-4 col-lg-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="service-29193 text-center">
+              <span class="img-wrap mb-5">
+                <img src={{ asset('fonts/flaticon/svg/statics.svg') }} alt="Image" class="img-fluid">
+              </span>
+                        <h3 class="mb-4"><a href="#">Stock Managment</a></h3>
+                        <p>Check the list of available drugs and add new ones
+                            .</p>
+                        <br>
+                        <br>
+                    </div>
+                </div>{#Stock Managment#}
+                <div class="col-md-6 mb-4 col-lg-4" data-aos="fade-up" data-aos-delay="">
+                    <div class="service-29193 text-center">
+              <span class="img-wrap mb-5">
+                <img src={{ asset('fonts/flaticon/svg/004-blueprint.svg') }} alt="Image" class="img-fluid">
+              </span>
+                        <h3 class="mb-4"><a href="#">Order caretaker</a></h3>
+                        <p>Check your orders and make new ones
+                            .</p>
+                        <br>
+                    </div>
+                </div> {# Order Caretaker#}
+                <div class="col-md-6 mb-4 col-lg-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="service-29193 text-center">
+              <span class="img-wrap mb-5">
+                <img src={{ asset('fonts/flaticon/svg/sensors.svg') }} alt="Image" class="img-fluid">
+              </span>
+                        <h3 class="mb-4"><a href="{#  #}">History</a></h3>
+                        <p>Check your usage history
+                            .</p>
+                        <br>
+                        <br>
+                    </div>
+                </div> {#history#}
+                {% endif %}
 
             </div>
             <div class="row align-content-center">
@@ -85,12 +162,13 @@
               <span class="img-wrap mb-5">
                 <img src={{ asset('fonts/flaticon/svg/001-stairs.svg') }} alt="Image" class="img-fluid">
               </span>
-{#                        <h3 class="mb-4"><a href="{{ path('rooms') }}">Rooms</a></h3>#}
-                        <p>You can control each room separately
+                        <h3 class="mb-4"><a href="#">Statics</a></h3>
+                        <p>Check your usage statics
                             .</p>
                         <br>
                     </div>
-                </div>{#rooms#}
+                </div>{#statics#}
+
                 {% if is_granted("ROLE_OWNER") or is_granted("ROLE_ADMIN") %}
 {#                    <div class="col-md-6 mb-4 col-lg-4" data-aos="fade-up" data-aos-delay="">#}
 
@@ -107,6 +185,11 @@
                     </div>
                     </div>{#residents#}
                 {% endif %} {# resident check#}
+
+
+
+
+
 {#                <div class="col-md-6 mb-4 col-lg-4" data-aos="fade-up" data-aos-delay="100">#}
 {#                    <div class="service-29193 text-center">#}
 {#              <span class="img-wrap mb-5">#}

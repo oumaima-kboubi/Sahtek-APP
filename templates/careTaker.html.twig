@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hire a Care Taker{% endblock %}
+
+{% block body %}
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+    {% for message in app.flashes('error') %}
+        <div class="alert alert-alert">
+            {{ message }}
+        </div>
+
+    {% endfor %}
+     <div class="row">
+         {% if caretakers is defined %}
+        {% for caretaker in caretakers %}
+            <div style="padding: 15px">
+            <div  class="card" style="width: 20rem;">
+                <img class="card-img-top" src="{{ asset(caretaker.featuredimage) }}" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">{{ caretaker.firstName }}</h5>
+                    <p class="card-text">{{ caretaker.lastName }}</p>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Born In : {{ caretaker.birthDate | date("d/m/Y") }}</li>
+                </ul>
+                <div class="card-body">
+                    <a href="{{ path('caretaker.hire', {'id': caretaker.id, 'user' : app.user.id })}}" class="btn btn-primary">Hire A CareTaker</a>
+                </div>
+            </div>
+            </div>
+        {% endfor %}
+         {% endif %}
+    </div>
+    <br>
+    <br>
+    <br>
+{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/drug.css') }}">
+{#    <link rel="stylesheet" href="{{ asset('bootstrap.css') }}" >#}
+{% endblock %}

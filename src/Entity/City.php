@@ -7,9 +7,13 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Form\FormTypeInterface;
-
+use Gedmo\Mapping\Annotation as Gedmo;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use ApiPlatform\Core\Annotation\ApiResource;
 /**
+ * @ApiResource
  * @ORM\Entity(repositoryClass=CityRepository::class)
+ *  @Vich\Uploadable()
  */
 class City
 {
@@ -26,21 +30,40 @@ class City
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity=Person::class, mappedBy="adress")
+     * @ORM\Column(type="string", length=255)
+     */
+    private $description;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $createdAt;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $updatedAt;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @var string
      *
      */
-    private $people;
-// @ORM\OneToMany(targetEntity=User::class, mappedBy="adress")
-//    /**
-//     *
-//     * @ORM\Column(type="string", length=255)
-//     */
-//    private $users;
+    private $featured_image;
+
+    /**
+     * @Vich\UploadableField(mapping="featured_images",fileNameProperty="featured_image")
+     * @var File
+     */
+    private $imageFile;
+
+
 
     public function __construct()
     {
         $this->people = new ArrayCollection();
         $this->users = new ArrayCollection();
+        $this->setFeaturedImage('images/avatar.jpeg');
     }
 
     public function getId(): ?int
@@ -60,63 +83,75 @@ class City
         return $this;
     }
 
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getFeaturedImage()
+    {
+        return $this->featured_image;
+    }
+
+    public function setFeaturedImage(string $featured_image)
+    {
+        $this->featured_image = $featured_image;
+
+        return $this;
+    }
+
+
     /**
-     * @return Collection|Person[]
+     * @param mixed $image
+     *
      */
-    public function getPeople(): Collection
+    public function setImageFile($image): void
     {
-        return $this->people;
-    }
+        $this->imageFile = $image;
 
-    public function addPerson(Person $person): self
-    {
-        if (!$this->people->contains($person)) {
-            $this->people[] = $person;
-            $person->setAdress($this);
+        if ($image) {
+            $this->updatedAt = new \DateTime('now');
         }
-
-        return $this;
     }
 
-    public function removePerson(Person $person): self
+    /**
+     * @return mixed
+     *
+     */
+    public function getImageFile()
     {
-        if ($this->people->removeElement($person)) {
-            // set the owning side to null (unless already changed)
-            if ($person->getAdress() === $this) {
-                $person->setAdress(null);
-            }
-        }
-
-        return $this;
+        return $this->imageFile;
     }
 
-//    /**
-//     * @return Collection|User[]
-//     */
-//    public function getUsers(): Collection
-//    {
-//        return $this->users;
-//    }
-//
-//    public function addUser(User $user): self
-//    {
-//        if (!$this->users->contains($user)) {
-//            $this->users[] = $user;
-//            $user->setAdress($this);
-//        }
-//
-//        return $this;
-//    }
-//
-//    public function removeUser(User $user): self
-//    {
-//        if ($this->users->removeElement($user)) {
-//            // set the owning side to null (unless already changed)
-//            if ($user->getAdress() === $this) {
-//                $user->setAdress(null);
-//            }
-//        }
-//
-//        return $this;
-//    }
 }

@@ -88,12 +88,24 @@ class Drug
      */
     private $createdAt;
 
+    /**
+     * @ORM\OneToMany(targetEntity=DrugStockPharmacy::class, mappedBy="drug")
+     */
+    private $drugStockPharmacies;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=DrugStockPharmacy::class, inversedBy="drug")
+     */
+    private $drugStockPharmacy;
+
+
     public function __construct()
     {
         $this->belongs = new ArrayCollection();
         $this->client = new ArrayCollection();
         $this->drugOrders = new ArrayCollection();
         $this->updatedAt = new DateTime('now');
+        $this->drugStockPharmacies = new ArrayCollection();
     }
 
 
@@ -368,5 +380,49 @@ class Drug
 //
 //        return $this;
 //    }
+
+/**
+ * @return Collection|DrugStockPharmacy[]
+ */
+public function getDrugStockPharmacies(): Collection
+{
+    return $this->drugStockPharmacies;
+}
+
+public function addDrugStockPharmacy(DrugStockPharmacy $drugStockPharmacy): self
+{
+    if (!$this->drugStockPharmacies->contains($drugStockPharmacy)) {
+        $this->drugStockPharmacies[] = $drugStockPharmacy;
+        $drugStockPharmacy->setDrug($this);
+    }
+
+    return $this;
+}
+
+public function removeDrugStockPharmacy(DrugStockPharmacy $drugStockPharmacy): self
+{
+    if ($this->drugStockPharmacies->removeElement($drugStockPharmacy)) {
+        // set the owning side to null (unless already changed)
+        if ($drugStockPharmacy->getDrug() === $this) {
+            $drugStockPharmacy->setDrug(null);
+        }
+    }
+
+    return $this;
+}
+
+public function getDrugStockPharmacy(): ?DrugStockPharmacy
+{
+    return $this->drugStockPharmacy;
+}
+
+public function setDrugStockPharmacy(?DrugStockPharmacy $drugStockPharmacy): self
+{
+    $this->drugStockPharmacy = $drugStockPharmacy;
+
+    return $this;
+}
+
+
 
 }

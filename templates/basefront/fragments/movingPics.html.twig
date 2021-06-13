@@ -52,9 +52,9 @@
             <div class="row mb-5 align-items-center">
                 <div class="col-md-7">
                 </div>
-                {% if not ( is_granted("ROLE_ADMIN") or is_granted("ROLE_RESIDENT") or is_granted("ROLE_OWNER")) %}
+                {% if not ( is_granted("ROLE_CLIENT") or is_granted("ROLE_PHARMACY") or is_granted("ROLE_CARETAKER")) %}
                 <div class="col-md-5 text-right">
-                    <p class="mb-0"><a href="{{ path('fos_user_registration_register') }}">Register Now!</a></p>
+                    <p class="mb-0"><a href="{{ path('app_register') }}">Register Now!</a></p>
                 </div>
                 {% endif %}
             </div>
