@@ -2,11 +2,14 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Belong;
+use App\Entity\CareTakerOrder;
 use App\Entity\Category;
 use App\Entity\City;
 use App\Entity\Drug;
 use App\Entity\DrugOrder;
 use App\Entity\Entreprise;
+use App\Entity\Money;
 use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
@@ -52,14 +55,20 @@ class DashboardController extends AbstractDashboardController
     {
 //        yield MenuItem::linktoDashboard('Dashboard', 'fa fa-home');
 //         yield MenuItem::linkToCrud('The Label', 'fas fa-list', EntityClass::class);
-         yield MenuItem::section('Drug Store');
-         yield MenuItem::linkToCrud('Drug','fa fa-file-pdf',Drug::class);
-         yield MenuItem::linkToCrud('Entreprise','fa fa-pdf',Entreprise::class);
-         yield MenuItem::linkToCrud('DrugOrder','fa fa-pdf',DrugOrder::class);
-         yield MenuItem::linkToCrud('Category','fa fa-pdf',Category::class);
+         yield MenuItem::section('SPACES');
+         yield MenuItem::linkToCrud('Drug','fas fa-tablets',Drug::class);
+         yield MenuItem::linkToCrud('Entreprise','fas fa-building',Entreprise::class);
+         yield MenuItem::linkToCrud('DrugOrder','fa fa-list',DrugOrder::class);
+         yield MenuItem::linkToCrud('Money','fa fa-dollar-sign',Money::class);
+         yield MenuItem::linkToCrud('Category','fa fa-file-medical',Category::class);
+         yield MenuItem::linkToCrud('List: drugs/pharmacies','fa fa-clipboard-list',Belong::class);
+         yield MenuItem::linkToCrud('List: order/caretaker','fa fa-user-nurse',CareTakerOrder::class);
          yield MenuItem::section('Users');
          yield MenuItem::linkToCrud('User','fa fa-user',User::class);
-         yield MenuItem::linkToCrud('City','fa fa-user',City::class);
+         yield MenuItem::linkToCrud('City','fa fa-map-marked-alt',City::class);
+        yield MenuItem::section('GO TO');
+         yield MenuItem::linkToRoute('Lobby','fa fa-arrow-circle-right','routing.homeIn');
+         yield MenuItem::linkToLogout('Logout','fa fa-sign-out-alt');
 
     }
 }

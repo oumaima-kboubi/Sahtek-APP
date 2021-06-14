@@ -10,11 +10,14 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ApiResource(formats={"json"})
  * @ORM\Entity(repositoryClass=CategoryRepository::class)
  * *@ApiFilter(SearchFilter::class, properties={"Name" : "ipartial"})
+ * @Vich\Uploadable()
  */
 class Category
 {
@@ -53,9 +56,24 @@ class Category
      */
     private $Description;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @var string
+     *
+     */
+    private $featured_image;
+
+    /**
+     * @Vich\UploadableField(mapping="featured_images",fileNameProperty="featured_image")
+     * @var File
+     */
+    private $imageFile;
+
+
     public function __construct()
     {
         $this->drugs = new ArrayCollection();
+        $this->setFeaturedImage('images/avatar.jpeg');
     }
 
     public function getId(): ?int
@@ -143,5 +161,39 @@ class Category
         $this->Description = $Description;
 
         return $this;
+    }
+    public function getFeaturedImage()
+    {
+        return $this->featured_image;
+    }
+
+    public function setFeaturedImage(string $featured_image)
+    {
+        $this->featured_image = $featured_image;
+
+        return $this;
+    }
+
+
+    /**
+     * @param mixed $image
+     *
+     */
+    public function setImageFile($image): void
+    {
+        $this->imageFile = $image;
+
+        if ($image) {
+            $this->updatedAt = new \DateTime('now');
+        }
+    }
+
+    /**
+     * @return mixed
+     *
+     */
+    public function getImageFile()
+    {
+        return $this->imageFile;
     }
 }

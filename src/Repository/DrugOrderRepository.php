@@ -119,10 +119,22 @@ class DrugOrderRepository extends ServiceEntityRepository
     {
         $em = $this->getEntityManager();
         return $em->createQuery(
-            " select p.birthDate, p.lastName, p.firstName, p.city, d.description, d.quantity, d.price, d.createdAt, r.Name
+            " select p.birthDate, p.lastName, p.firstName, p.city, d.description, d.quantity, d.price, d.createdAt, r.Name,
         from App\Entity\DrugOrder d, App\Entity\User p, App\Entity\Drug r
         where d.client = :val and p.id = d.client and d.Drug = r.id and d.pending =1")
             ->setParameter('val', $id)
+            ->getResult()
+            ;
+    }
+
+    public function yearly($year)
+    {
+        $em = $this->getEntityManager();
+        return $em->createQuery(
+            " select d.price, d.createdAt
+        from App\Entity\DrugOrder d
+        where d.createdAt > :year")
+            ->setParameter('year', $year)
             ->getResult()
             ;
     }

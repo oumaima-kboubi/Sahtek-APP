@@ -27,10 +27,10 @@ class DrugCrudController extends AbstractCrudController
             TextField::new('Name'),
             NumberField::new('price'),
             TextEditorField::new('description'),
-            TextField::new('featured_image'),
+           // TextField::new('featured_image')->setFormType(VichImageType::class),
             AssociationField::new('type')->autocomplete(),
             AssociationField::new('entreprise')->autocomplete(),
-            TextAreaField::new('imageFile')->setFormType(VichImageType::class),
+         //   TextAreaField::new('imageFile')->setFormType(VichImageType::class),
         ];
     }
 

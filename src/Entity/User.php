@@ -161,6 +161,22 @@ class User implements UserInterface
      */
     private $drugOrders;
 
+    /**
+     * @ORM\Column(type="time", nullable=true)
+     */
+    private $close;
+
+    /**
+     * @ORM\Column(type="time", nullable=true)
+     */
+    private $open;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Belong::class, mappedBy="pharmacy")
+     */
+    private $belongs;
+
+
 
 
 
@@ -173,6 +189,7 @@ class User implements UserInterface
         $this->careTakerOrders = new ArrayCollection();
         $this->careTakers = new ArrayCollection();
         $this->drugOrders = new ArrayCollection();
+        $this->belongs = new ArrayCollection();
 
 
     }
@@ -545,6 +562,60 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($drugOrder->getClient() === $this) {
                 $drugOrder->setClient(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getClose(): ?\DateTimeInterface
+    {
+        return $this->close;
+    }
+
+    public function setClose(?\DateTimeInterface $close): self
+    {
+        $this->close = $close;
+
+        return $this;
+    }
+
+    public function getOpen(): ?\DateTimeInterface
+    {
+        return $this->open;
+    }
+
+    public function setOpen(?\DateTimeInterface $open): self
+    {
+        $this->open = $open;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Belong[]
+     */
+    public function getBelongs(): Collection
+    {
+        return $this->belongs;
+    }
+
+    public function addBelong(Belong $belong): self
+    {
+        if (!$this->belongs->contains($belong)) {
+            $this->belongs[] = $belong;
+            $belong->setPharmacy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBelong(Belong $belong): self
+    {
+        if ($this->belongs->removeElement($belong)) {
+            // set the owning side to null (unless already changed)
+            if ($belong->getPharmacy() === $this) {
+                $belong->setPharmacy(null);
             }
         }
 

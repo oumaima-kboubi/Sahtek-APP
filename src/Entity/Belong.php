@@ -26,11 +26,7 @@ class Belong
      */
     private $drug;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Person::class, inversedBy="belongs")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $Pharmacy;
+
 
     /**
      * @ORM\Column(type="decimal", precision=10, scale=0)
@@ -69,6 +65,11 @@ class Belong
      */
     private $updatedAt;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="belongs")
+     */
+    private $pharmacy;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -86,17 +87,7 @@ class Belong
         return $this;
     }
 
-    public function getPharmacy(): ?Person
-    {
-        return $this->Pharmacy;
-    }
 
-    public function setPharmacy(?Person $Pharmacy): self
-    {
-        $this->Pharmacy = $Pharmacy;
-
-        return $this;
-    }
 
     public function getQuantity(): ?string
     {
@@ -181,4 +172,16 @@ class Belong
 //
 //        return $this;
 //    }
+
+public function getPharmacy(): ?User
+{
+    return $this->pharmacy;
+}
+
+public function setPharmacy(?User $pharmacy): self
+{
+    $this->pharmacy = $pharmacy;
+
+    return $this;
+}
 }

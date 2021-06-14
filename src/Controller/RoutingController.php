@@ -2,15 +2,21 @@
 
 namespace App\Controller;
 
+use App\Entity\Belong;
 use App\Entity\CareTakerOrder;
+use App\Entity\Category;
 use App\Entity\City;
+use App\Entity\Drug;
 use App\Entity\DrugOrder;
+use App\Entity\Entreprise;
 use App\Entity\Money;
 use App\Entity\User;
 
 use App\Form\CareTakerOrderType;
+use App\Form\DrugOrderType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
@@ -279,16 +285,20 @@ class RoutingController extends AbstractController
      */
     public function affichPharmacy($city) : Response
     {
-        $repository = $this->getDoctrine()->getRepository(Person::class);
+        $repository = $this->getDoctrine()->getRepository(User::class);
         if ($city == 'null'){
-            $pharmacy = $repository->findBy(['role' => 'pharmacy']);
+            $pharmacy = $repository->findBy(['role' => 'ROLE_PHARMACY']);
+
         } else {
-            $pharmacy = $repository->findBy(['city' => $city, 'role' => 'pharmacy']);
+            $pharmacy = $repository->findBy(['city' => $city, 'role' => 'ROLE_PHARMACY']);
+
         }
-        return $this->render('first/pharmacyList.html.twig', [
+
+        return $this->render('pharmacieslist.html.twig', [
             'pharmacy' => $pharmacy
         ]);
     }
+
 
     /**
      * @Route("/care/affich/{city}", name="caretaker.affich")
@@ -426,5 +436,182 @@ class RoutingController extends AbstractController
         $manager->flush();
         $this->addFlash('error', 'Order Refused :( ');
         return $this->redirectToRoute('consult.taker.orders', ['id' => $user]);
+    }
+
+
+    /**
+     * @Route("/category/list/{place}", name="category.list")
+     */
+//    category/list/drug.affich
+    public function affichCategory($place) : Response
+    {
+        $repository = $this->getDoctrine()->getRepository(Category::class);
+
+        $categories = $repository->findAll();
+        return $this->render('drug.html.twig', [
+            'categories' => $categories,
+            'place' => $place
+        ]);
+    }
+    /**
+     * @Route("/drugAffiche/{category}", name="drug.affich")
+     */
+    public function afficherDrugs($category) : Response
+    {
+        $repository = $this->getDoctrine()->getRepository(Drug::class);
+        $drugs = $repository->findBy(['type' => $category]);
+        if($drugs){
+            return $this->render('druglist.html.twig', [
+                'drugs' => $drugs
+            ]);
+        }
+        $this->addFlash('error', 'drugs in this city are nonexistent');
+        return $this->render('druglist.html.twig');
+    }
+    /**
+     * @Route("/entreprise/list/{place}", name="entreprise.list")
+     */
+//    category/list/drug.affich
+    public function affichEntreprise($place) : Response
+    {
+        $repository = $this->getDoctrine()->getRepository(Entreprise::class);
+
+        $entreprises = $repository->findAll();
+        return $this->render('entreprise.html.twig', [
+            'entreprises' => $entreprises,
+            'place' => $place
+        ]);
+    }
+ /**
+     * @Route("/entrepriseAffiche/{entreprise}", name="entreprise.affich")
+     */
+    public function afficherEntreprise($entreprise) : Response
+    {
+        $repository = $this->getDoctrine()->getRepository(Drug::class);
+        $drugs = $repository->findBy(['entreprise' => $entreprise]);
+        if($drugs){
+            return $this->render('druglist.html.twig', [
+                'drugs' => $drugs
+            ]);
+        }
+        $this->addFlash('error', 'drugs in this city are nonexistent');
+        return $this->render('druglist.html.twig');
+    }
+
+    /**
+     * @Route("/drugOrder/{id}", name="drug.order")
+     */
+    public function orderDrug(Request $request, EntityManagerInterface $manager, $id ) : Response
+    {
+        $userId = $this->getUser()->getId();
+        $user = $this->getUser();
+        $takerId = $id;
+        $day=$request->query->get('day');
+        //  $takerUser= $this->getUser();
+        $repository = $this->getDoctrine()->getRepository(User::class);
+        //  $pharma= $repository->findOneBy(['id' => 1]);
+        //$user =$repository->findOneBy(['id' => 2]);
+        $takerUser=$repository->findOneBy(['id' => $id]);
+        if(!$user || !$takerId){
+            return new Response('<h1> There is no user or caretaker</h1>');
+//                $this->render('hireTaker.html.twig');
+        }else {
+            $order = new CareTakerOrder();
+            $form = $this->createForm(CareTakerOrderType::class, $order);
+            //   $form->remove('pharmacy');
+            $form->remove('approved');
+            $form->remove('Pending');
+            $form->remove('client');
+            $form->remove('caretaker');
+            $form->remove('deleted');
+            $form->remove('day');
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()){
+                //    $order->setPharmacy($pharma);
+                $order->setApproved(0);
+                $order->setCaretaker($takerUser);
+                $order->setClient($user);
+                $order->setPending(1);
+                $order->setDeleted(0);
+                $order->setDay(new \DateTime());
+                $manager->persist($order);
+                $manager->flush();
+                return $this->redirectToRoute("caretaker.affich",['city' => $takerUser->getCity()]);
+            }
+            return $this->render('hireTaker.html.twig', [
+                'form' => $form->createView()
+            ]);
+        }
+    }
+
+    /**
+     * @Route("/drug/list/{id}", name="drug.list")
+     */
+    public function affichDrug($id) : Response
+    {
+        $repository = $this->getDoctrine()->getRepository(Belong::class);
+        $drugs = $repository->findThe($id);
+        return $this->render('drugListt.html.twig', [
+            'drugs' => $drugs,
+            'idd' => $id
+        ]);
+    }
+
+    /**
+     * @Route("/order/drug/{id}/{idd}", name="drug.order.client")
+     */
+    public function orderDrugs(Request $request, EntityManagerInterface $manager, $id, $idd) : Response
+    {
+         $idUser = $this->getUser()->getId();
+        // $takerId = $request->query->get('taker');
+        $repository = $this->getDoctrine()->getRepository(User::class);
+        $repository1 = $this->getDoctrine()->getRepository(Drug::class);
+        $pharma= $repository->findOneBy(['id' => $idd]);
+        $user =$repository->findOneBy(['id' => $idUser ]);
+        $drug=$repository1->findOneBy(['id' => $id]);
+        if(!$user || !$drug){
+            return new Response("<h1> Problem :( </h1>");
+        }else {
+            $order = new DrugOrder();
+            $form = $this->createForm(DrugOrderType::class, $order);
+            $form->remove('pharmacy');
+            $form->remove('Approved');
+            $form->remove('pending');
+            $form->remove('client');
+            $form->remove('Drug');
+            $form->remove('featured_image');
+            $form->remove('deleted');
+            $form->remove('price');
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()){
+                $order->setPharmacy($pharma);
+                $order->setApproved(0);
+                $order->setDrug($drug);
+                $order->setClient($user);
+                $order->setPending(1);
+                $order->setDeleted(0);
+                $order->setPrice($drug->getPrice());
+//                if($form['featured_image'] != null ) {
+//                    $image = $form['featured_image']->getData();
+//                    if($image) {
+//                        $imagePath = md5(uniqid()) . $image->getClientOriginalName();
+//                        $destination = __DIR__ . '/../../public/assets/uploads';
+//                        try {
+//                            $image->move($destination, $imagePath);
+//                            $user->setFeaturedImage('assets/uploads/' . $imagePath);
+//                        } catch (FileException $fe) {
+//                            echo $fe;
+//                        }
+//                    }
+//                }
+                $order->setFeaturedImage($user->getFeaturedImage());
+                $manager->persist($order);
+                $manager->flush();
+                return $this->redirectToRoute("drug.list",['id' => $idd]);
+            }
+            return $this->render('orderDrug.html.twig', [
+                'form' => $form->createView()
+            ]);
+        }
     }
 }

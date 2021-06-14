@@ -23,14 +23,15 @@ class EntrepriseCrudController extends AbstractCrudController
         return [
 
             TextField::new('name'),
-            ImageField::new('featured_image')->setFormType(VichImageType::class)
-                ->setBasePath($this->getParameter("app.path.featured_images"))
-                ->onlyOnIndex(),
+            TextField::new('description'),
+//            ImageField::new('featured_image')->setFormType(VichImageType::class)
+//                ->setBasePath($this->getParameter("app.path.featured_images"))
+//                ->onlyOnIndex(),
 //                ->setValue("null"),
-            TextAreaField::new('imageFile')
-                ->setFormType(VichImageType::class)
-                ->hideOnIndex()
-                ->setFormTypeOption('allow_delete',false),
+//            TextAreaField::new('imageFile')
+//                ->setFormType(VichImageType::class)
+//                ->hideOnIndex()
+//                ->setFormTypeOption('allow_delete',false),
 //            ->setUploadDir("/uploads/images/featured"),
         ];
     }

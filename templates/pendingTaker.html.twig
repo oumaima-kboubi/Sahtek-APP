@@ -94,7 +94,10 @@
                         <div>
                             <div class="title">Age</div>
                             <i class="fa fa-trophy"></i>
-                            <div class="value">{{ order.birthDate | date("m/d/Y") }}</div>
+                            {%set i = order.birthDate | date("Y") %}
+                            {%set j = 2021-i %}
+                            <div class="value">
+                                {{ j }}</div>
                         </div>
                         <div>
                             <div class="title">Start Time</div>
@@ -115,8 +118,8 @@
                 </div>
             </div>
             <div class="general">
-                <h1>Jane Doe</h1>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce a volutpat mauris, at molestie lacus. Nam vestibulum sodales odio ut pulvinar.</p>
+                <h1>Your Caretaker Order </h1>
+                <p> Our caretakers are the best in this field including <b>{{ order.firstName }}&nbsp;{{ order.lastName }}</b></p>
                 <span class="more">Mouse over the card for more info</span>
             </div>
         </div>

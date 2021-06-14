@@ -97,6 +97,11 @@ class DrugOrder
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="drugOrders")
      */
     private $pharmacy;
+
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $day;
     public function getId(): ?int
     {
         return $this->id;
@@ -254,6 +259,18 @@ class DrugOrder
     public function setPharmacy(?User $pharmacy): self
     {
         $this->pharmacy = $pharmacy;
+
+        return $this;
+    }
+
+    public function getDay(): ?\DateTimeInterface
+    {
+        return $this->day;
+    }
+
+    public function setDay(?\DateTimeInterface $day): self
+    {
+        $this->day = $day;
 
         return $this;
     }

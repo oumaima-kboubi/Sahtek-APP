@@ -2,10 +2,6 @@
 {% block title %}Home{% endblock %}
 {% block body %}
 
-    {#{% if  (is_granted("ROLE_OWNER") and (is_granted("ROLE_RESIDENT"))) %}#}
-
-    {#        {% include 'fragments/carousel.html.twig' %}#}
-    {#        {% include 'fragments/poppingOptions.html.twig' %}#}
 
     {% if is_granted("ROLE_CLIENT") %}
 
@@ -21,7 +17,13 @@
         {% include 'basefront/fragments/sideNote.html.twig' %}
         {% include 'basefront/fragments/quotes.html.twig' %}
 
-{% elseif is_granted("ROLE_CARETAKER") %}
+    {% elseif is_granted("ROLE_CARETAKER") %}
+        {% include 'basefront/fragments/carousel.html.twig' %}
+        {% include 'basefront/fragments/poppingOptions.html.twig' %}
+        {% include 'basefront/fragments/sideNote.html.twig' %}
+        {% include 'basefront/fragments/quotes.html.twig' %}
+
+    {% elseif is_granted("ROLE_ADMIN") %}
         {% include 'basefront/fragments/carousel.html.twig' %}
         {% include 'basefront/fragments/poppingOptions.html.twig' %}
         {% include 'basefront/fragments/sideNote.html.twig' %}

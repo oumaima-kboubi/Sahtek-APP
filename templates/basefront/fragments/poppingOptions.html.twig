@@ -8,245 +8,310 @@
                 </div>
             </div>
             <div class="row">
-                {% if is_granted("ROLE_CLIENT")%}
+                {% if is_granted("ROLE_CLIENT") %}
                 <div class="col-md-6 mb-4 col-lg-4" data-aos="fade-up" data-aos-delay="100">
                     <div class="service-29193 text-center">
               <span class="img-wrap mb-5">
-                <img src={{ asset('fonts/flaticon/svg/temperature.svg') }} alt="Image" class="img-fluid">
+                <img src={{ asset('images/pharmacy.png') }} alt="Image" class="img-fluid">
               </span>
-                        <h3 class="mb-4"><a href="#">Pharmacies</a></h3>
+                        <h3 class="mb-4"><a
+                                    href="{{ path('city.afficher',{ 'place' : 'pharmacy.list'}) }}">Pharmacies</a></h3>
                         <p>Check all the pharmacies nearby
                             .</p>
                         <br>
                         <br>
                     </div>
-                </div>{#pharmacies#}
+                </div>{# pharmacies #}
+                    <div class="col-md-6 mb-4 col-lg-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="service-29193 text-center">
+              <span class="img-wrap mb-5">
+                <img src={{ asset('images/hospital.png') }} alt="Image" class="img-fluid">
+              </span>
+                        <h3 class="mb-4"><a
+                                    href="{{ path('entreprise.list',{ 'place' : 'entreprise.affich'}) }}">Entreprises</a></h3>
+                        <p>Check all the pharmacies nearby
+                            .</p>
+                        <br>
+                        <br>
+                    </div>
+                    </div>{# entreprise #}
                 <div class="col-md-6 mb-4 col-lg-4" data-aos="fade-up" data-aos-delay="200">
                     <div class="service-29193 text-center">
               <span class="img-wrap mb-5">
-                <img src={{ asset('fonts/flaticon/svg/lightBulb.svg') }} alt="Image" class="img-fluid">
+                <img src={{ asset('images/medicine.png') }} alt="Image" class="img-fluid">
               </span>
-                        <h3 class="mb-4"><a href="#">Drugs</a></h3>
+                        <h3 class="mb-4"><a href="{{ path('category.list',{ 'place' : 'drug.affich'}) }}">Drugs</a>
+                        </h3>
                         <p>List all the drugs you are looking for
                             .</p>
                         <br>
                         <br>
                     </div>
-                </div> {#Drugs#}
+                </div> {# Drugs #}
                 <div class="col-md-6 mb-4 col-lg-4" data-aos="fade-up" data-aos-delay="200">
                     <div class="service-29193 text-center">
               <span class="img-wrap mb-5">
-                <img src={{ asset('fonts/flaticon/svg/camera.svg') }} alt="Image" class="img-fluid">
+                <img src={{ asset('images/online-order.png') }} alt="Image" class="img-fluid">
               </span>
                         <h3 class="mb-4"><a href="#">Order Drugs</a></h3>
-                        <p>check your orders and make new ones
+                        <p>check your orders.
                             .</p>
                         <br>
+                        <br>
                     </div>
-                </div>{#order Drugs#}
+                </div>{# order Drugs #}
 
 
                 <div class="col-md-6 mb-4 col-lg-4" data-aos="fade-up" data-aos-delay="200">
                     <div class="service-29193 text-center">
               <span class="img-wrap mb-5">
-                <img src={{ asset('fonts/flaticon/svg/statics.svg') }} alt="Image" class="img-fluid">
+                <img src={{ asset('images/choices.png') }} alt="Image" class="img-fluid">
               </span>
-                        <h3 class="mb-4"><a href="{{ path('city.afficher', { 'place' : 'caretaker.affich'}) }}">Order CareTaker</a></h3>
+                        <h3 class="mb-4"><a href="{{ path('city.afficher', { 'place' : 'caretaker.affich'}) }}">Order
+                                CareTaker</a></h3>
                         <p>Check the list of available caretakers
                             .</p>
                         <br>
                         <br>
                     </div>
-                </div>{#caretakers List#}
+                </div>{# ordercaretakers List #}
                 <div class="col-md-6 mb-4 col-lg-4" data-aos="fade-up" data-aos-delay="">
                     <div class="service-29193 text-center">
               <span class="img-wrap mb-5">
-                <img src={{ asset('fonts/flaticon/svg/004-blueprint.svg') }} alt="Image" class="img-fluid">
+                <img src={{ asset('images/wall-clock.png') }} alt="Image" class="img-fluid">
               </span>
-                        <h3 class="mb-4"><a href="{{ path('pending.taker',{ 'id' : app.user.id}) }}">Pending Caretaker Orders</a></h3>
-                        <p>Check your orders
+                        <h3 class="mb-4"><a href="{{ path('pending.taker',{ 'id' : app.user.id}) }}">Pending
+                                Caretaker Orders</a></h3>
+                        <p>Check your pending orders
                             .</p>
                         <br>
+                        <br>
                     </div>
-                </div> {# Order Caretaker#}
+                </div> {# pending Order Caretaker #}
                 <div class="col-md-6 mb-4 col-lg-4" data-aos="fade-up" data-aos-delay="100">
                     <div class="service-29193 text-center">
               <span class="img-wrap mb-5">
-                <img src={{ asset('fonts/flaticon/svg/sensors.svg') }} alt="Image" class="img-fluid">
+                <img src={{ asset('images/scroll.png') }} alt="Image" class="img-fluid">
               </span>
-                        <h3 class="mb-4"><a href="{{ path('histo.consult.taker',{'id':app.user.id }) }}">History</a></h3>
+                        <h3 class="mb-4"><a href="{{ path('histo.consult.taker',{'id':app.user.id }) }}">History</a>
+                        </h3>
                         <p>Check your usage history
                             .</p>
                         <br>
                         <br>
                     </div>
-                </div> {#history#}
-                {% elseif is_granted("ROLE_CARETAKER")%}
-                <div class="col-md-6 mb-4 col-lg-4" data-aos="fade-up" data-aos-delay="200">
-                    <div class="service-29193 text-center">
-              <span class="img-wrap mb-5">
-                <img src={{ asset('fonts/flaticon/svg/statics.svg') }} alt="Image" class="img-fluid">
-              </span>
-                        <h3 class="mb-4"><a href="{{ path('consult.taker.orders', {'id': app.user.id}) }}">Pending Orders</a></h3>
-                        <p>Check Your pending Orders.
-                            .</p>
-                        <br>
-                        <br>
-                    </div>
-                </div>{#caretakers List#}
-                <div class="col-md-6 mb-4 col-lg-4" data-aos="fade-up" data-aos-delay="">
-                    <div class="service-29193 text-center">
-              <span class="img-wrap mb-5">
-                <img src={{ asset('fonts/flaticon/svg/004-blueprint.svg') }} alt="Image" class="img-fluid">
-              </span>
-                        <h3 class="mb-4"><a href="#">Order caretaker</a></h3>
-                        <p>Check your orders and make new ones
-                            .</p>
-                        <br>
-                    </div>
-                </div> {# Order Caretaker#}
+                </div> {# history #}
                 <div class="col-md-6 mb-4 col-lg-4" data-aos="fade-up" data-aos-delay="100">
                     <div class="service-29193 text-center">
               <span class="img-wrap mb-5">
-                <img src={{ asset('fonts/flaticon/svg/sensors.svg') }} alt="Image" class="img-fluid">
-              </span>
-                        <h3 class="mb-4"><a href="{#  #}">History</a></h3>
-                        <p>Check your usage history
-                            .</p>
-                        <br>
-                        <br>
-                    </div>
-                </div> {#history#}
-                {% elseif is_granted("ROLE_PHARMACY")%}
-                <div class="col-md-6 mb-4 col-lg-4" data-aos="fade-up" data-aos-delay="200">
-                    <div class="service-29193 text-center">
-              <span class="img-wrap mb-5">
-                <img src={{ asset('fonts/flaticon/svg/statics.svg') }} alt="Image" class="img-fluid">
-              </span>
-                        <h3 class="mb-4"><a href="#">Stock Managment</a></h3>
-                        <p>Check the list of available drugs and add new ones
-                            .</p>
-                        <br>
-                        <br>
-                    </div>
-                </div>{#Stock Managment#}
-                <div class="col-md-6 mb-4 col-lg-4" data-aos="fade-up" data-aos-delay="">
-                    <div class="service-29193 text-center">
-              <span class="img-wrap mb-5">
-                <img src={{ asset('fonts/flaticon/svg/004-blueprint.svg') }} alt="Image" class="img-fluid">
-              </span>
-                        <h3 class="mb-4"><a href="#">Order caretaker</a></h3>
-                        <p>Check your orders and make new ones
-                            .</p>
-                        <br>
-                    </div>
-                </div> {# Order Caretaker#}
-                <div class="col-md-6 mb-4 col-lg-4" data-aos="fade-up" data-aos-delay="100">
-                    <div class="service-29193 text-center">
-              <span class="img-wrap mb-5">
-                <img src={{ asset('fonts/flaticon/svg/sensors.svg') }} alt="Image" class="img-fluid">
-              </span>
-                        <h3 class="mb-4"><a href="{#  #}">History</a></h3>
-                        <p>Check your usage history
-                            .</p>
-                        <br>
-                        <br>
-                    </div>
-                </div> {#history#}
-                {% endif %}
-
-            </div>
-            <div class="row align-content-center">
-                <div class="col-md-6 mb-4 col-lg-4" data-aos="fade-up" data-aos-delay="">
-                    <div class="service-29193 text-center">
-              <span class="img-wrap mb-5">
-                <img src={{ asset('fonts/flaticon/svg/001-stairs.svg') }} alt="Image" class="img-fluid">
+                <img src={{ asset('images/stats.png') }} alt="Image" class="img-fluid">
               </span>
                         <h3 class="mb-4"><a href="#">Statics</a></h3>
                         <p>Check your usage statics
                             .</p>
                         <br>
+                        <br>
                     </div>
-                </div>{#statics#}
-
-                {% if is_granted("ROLE_OWNER") or is_granted("ROLE_ADMIN") %}
-{#                    <div class="col-md-6 mb-4 col-lg-4" data-aos="fade-up" data-aos-delay="">#}
-
-{#                    </div>#}{#residents#}
-                    <div class="col-md-6 mb-4 col-lg-4" data-aos="fade-up" data-aos-delay="">
+                </div> {# statics #}
+                {% elseif is_granted("ROLE_CARETAKER") %}
+                <div class="col-md-6 mb-4 col-lg-4" data-aos="fade-up" data-aos-delay="200">
                     <div class="service-29193 text-center">
               <span class="img-wrap mb-5">
-                <img src={{ asset('fonts/flaticon/svg/smartHome.svg') }} alt="Image" class="img-fluid">
+                <img src={{ asset('images/wall-clock.png') }} alt="Image" class="img-fluid">
               </span>
-{#                        <h3 class="mb-4"><a href="{{ path('resident.show') }}">Residents Check</a></h3>#}
-                        <p>Check and edit the resident's list
+                        <h3 class="mb-4"><a href="{{ path('consult.taker.orders', {'id': app.user.id}) }}">Pending
+                                Orders</a></h3>
+                        <p>Check Your pending Orders.
+                            .</p>
+                        <br>
+                        <br>
+                    </div>
+                </div>{# pending orders #}
+                <div class="col-md-6 mb-4 col-lg-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="service-29193 text-center">
+              <span class="img-wrap mb-5">
+                <img src={{ asset('images/pharmacy.png') }} alt="Image" class="img-fluid">
+              </span>
+                        <h3 class="mb-4"><a
+                                    href="{{ path('city.afficher',{ 'place' : 'pharmacy.list'}) }}">Pharmacies</a></h3>
+                        <p>Check all the pharmacies nearby
+                            .</p>
+                        <br>
+                        <br>
+                    </div>
+                </div>{# pharmacies #}
+                    <div class="col-md-6 mb-4 col-lg-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="service-29193 text-center">
+              <span class="img-wrap mb-5">
+                <img src={{ asset('images/hospital.png') }} alt="Image" class="img-fluid">
+              </span>
+                        <h3 class="mb-4"><a
+                                    href="{{ path('entreprise.list',{ 'place' : 'entreprise.affich'}) }}">Entreprises</a></h3>
+                        <p>Check all the pharmacies nearby
+                            .</p>
+                        <br>
+                        <br>
+                    </div>
+                    </div>{# entreprise #}
+                <div class="col-md-6 mb-4 col-lg-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="service-29193 text-center">
+              <span class="img-wrap mb-5">
+                <img src={{ asset('images/medicine.png') }} alt="Image" class="img-fluid">
+              </span>
+                        <h3 class="mb-4"><a href="{{ path('category.list',{ 'place' : 'drug.affich'}) }}">Drugs</a>
+                        </h3>
+                        <p>List all the drugs you are looking for
+                            .</p>
+                        <br>
+                        <br>
+                    </div>
+                </div> {# Drugs #}
+                <div class="col-md-6 mb-4 col-lg-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="service-29193 text-center">
+              <span class="img-wrap mb-5">
+                <img src={{ asset('images/scroll.png') }} alt="Image" class="img-fluid">
+              </span>
+                        <h3 class="mb-4"><a href="#">History</a></h3>
+                        <p>Check your usage history
+                            .</p>
+                        <br>
+                        <br>
+                    </div>
+                </div> {# history #}
+                <div class="col-md-6 mb-4 col-lg-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="service-29193 text-center">
+              <span class="img-wrap mb-5">
+                <img src={{ asset('images/stats.png') }} alt="Image" class="img-fluid">
+              </span>
+                        <h3 class="mb-4"><a href="#">Statics</a></h3>
+                        <p>Check your usage statics
+                            .</p>
+                        <br>
+                        <br>
+                    </div>
+                </div> {# statics #}
+                {% elseif is_granted("ROLE_PHARMACY") %}
+                    <div class="col-md-6 mb-4 col-lg-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="service-29193 text-center">
+              <span class="img-wrap mb-5">
+                <img src={{ asset('images/pharmacy.png') }} alt="Image" class="img-fluid">
+              </span>
+                        <h3 class="mb-4"><a
+                                    href="{{ path('city.afficher',{ 'place' : 'pharmacy.list'}) }}">Pharmacies</a></h3>
+                        <p>Check all the pharmacies nearby
+                            .</p>
+                        <br>
+                        <br>
+                    </div>
+                    </div>{# pharmacies #}
+                    <div class="col-md-6 mb-4 col-lg-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="service-29193 text-center">
+              <span class="img-wrap mb-5">
+                <img src={{ asset('images/hospital.png') }} alt="Image" class="img-fluid">
+              </span>
+                        <h3 class="mb-4"><a
+                                    href="{{ path('entreprise.list',{ 'place' : 'entreprise.affich'}) }}">Entreprises</a></h3>
+                        <p>Check all the pharmacies nearby
+                            .</p>
+                        <br>
+                        <br>
+                    </div>
+                    </div>{# entreprise #}
+                <div class="col-md-6 mb-4 col-lg-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="service-29193 text-center">
+              <span class="img-wrap mb-5">
+                <img src={{ asset('images/stock.png') }} alt="Image" class="img-fluid">
+              </span>
+                        <h3 class="mb-4"><a href="{{ path('drug.list',{'id': app.user.id}) }}">Stock Managment</a></h3>
+                        <p>Check the list of available drugs and add new ones
                             .</p>
                         <br>
                     </div>
-                    </div>{#residents#}
-                {% endif %} {# resident check#}
+                </div>{# Stock Managment #}
+                <div class="col-md-6 mb-4 col-lg-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="service-29193 text-center">
+              <span class="img-wrap mb-5">
+                <img src={{ asset('images/medicine.png') }} alt="Image" class="img-fluid">
+              </span>
+                        <h3 class="mb-4"><a href="{{ path('category.list',{ 'place' : 'drug.affich'}) }}">Drugs</a>
+                        </h3>
+                        <p>List all the drugs you are looking for
+                            .</p>
+                        <br>
+                        <br>
+                    </div>
+                </div> {# Drugs #}
+                <div class="col-md-6 mb-4 col-lg-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="service-29193 text-center">
+              <span class="img-wrap mb-5">
+                <img src={{ asset('images/scroll.png') }} alt="Image" class="img-fluid">
+              </span>
+                        <h3 class="mb-4"><a href="{# #}">History</a></h3>
+                        <p>Check your usage history
+                            .</p>
+                        <br>
+                        <br>
+                    </div>
+                </div> {# history #}
+                <div class="col-md-6 mb-4 col-lg-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="service-29193 text-center">
+              <span class="img-wrap mb-5">
+                <img src={{ asset('images/choices.png') }} alt="Image" class="img-fluid">
+              </span>
+                        <h3 class="mb-4"><a href="{{ path('city.afficher', { 'place' : 'caretaker.affich'}) }}">Order
+                                CareTaker</a></h3>
+                        <p>Check the list of available caretakers
+                            .</p>
+                        <br>
+                        <br>
+                    </div>
+                </div>{# ordercaretakers List #}
+                <div class="col-md-6 mb-4 col-lg-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="service-29193 text-center">
+              <span class="img-wrap mb-5">
+                <img src={{ asset('images/stats.png') }} alt="Image" class="img-fluid">
+              </span>
+                        <h3 class="mb-4"><a href="#">Statics</a></h3>
+                        <p>Check your usage statics
+                            .</p>
+                        <br>
+                        <br>
+                    </div>
+                </div> {# statics #}
 
 
-
-
-
-{#                <div class="col-md-6 mb-4 col-lg-4" data-aos="fade-up" data-aos-delay="100">#}
-{#                    <div class="service-29193 text-center">#}
-{#              <span class="img-wrap mb-5">#}
-{#                <img src={{ asset('fonts/flaticon/svg/002-kitchen.svg') }} alt="Image" class="img-fluid">#}
-{#              </span>#}
-{#                        <h3 class="mb-4"><a href="#">Kitchen</a></h3>#}
-{#                        <p>Welcome you can see all controlling options of your kitchen in here#}
-{#                            .</p>#}
-{#                    </div>#}
-{#                </div> #}{# kitchen#}
-
-{#                <div class="col-md-6 mb-4 col-lg-4" data-aos="fade-up" data-aos-delay="">#}
-{#                    <div class="service-29193 text-center">#}
-{#              <span class="img-wrap mb-5">#}
-{#                <img src={{ asset('fonts/flaticon/svg/smartHome.svg') }} alt="Image" class="img-fluid">#}
-{#              </span>#}
-{#                        <h3 class="mb-4"><a href="#">Residents Check</a></h3>#}
-{#                        <p>Check and edit the resident's list#}
-{#                            .</p>#}
-{#                    </div>#}
-{#                </div>#}{#residents#}
+                {% elseif is_granted("ROLE_ADMIN") %}
+                    <div class="col-md-6 mb-4 col-lg-4" data-aos="fade-up" data-aos-delay="100">
+                        <div class="service-29193 text-center">
+              <span class="img-wrap mb-5">
+                <img src={{ asset('images/stats.png') }} alt="Image" class="img-fluid">
+              </span>
+                            <h3 class="mb-4"><a href="{{ path('statistic.dash') }}">Statics</a></h3>
+                            <p>Check your usage statics
+                                .</p>
+                            <br>
+                            <br>
+                        </div>
+                    </div> {# statics #}
+                    <div class="col-md-6 mb-4 col-lg-4" data-aos="fade-up" data-aos-delay="100">
+                        <div class="service-29193 text-center">
+              <span class="img-wrap mb-5">
+                <img src={{ asset('images/stats.png') }} alt="Image" class="img-fluid">
+              </span>
+                            <h3 class="mb-4"><a href="/admin">Admin Space</a></h3>
+                            <p>your admin space
+                                .</p>
+                            <br>
+                            <br>
+                        </div>
+                    </div> {# statics #}
+                {% endif %}
 
 
                 <div class="col-md-6 mb-4 col-lg-4" data-aos="fade-up" data-aos-delay="">
 
-                {#            <div class="col-md-6 mb-4 col-lg-4" data-aos="fade-up" data-aos-delay="">#}
-                {#                <div class="service-29193 text-center">#}
-                {#              <span class="img-wrap mb-5">#}
-                {#                <img src={{ asset('fonts/flaticon/svg/004-blueprint.svg') }} alt="Image" class="img-fluid">#}
-                {#              </span>#}
-                {#                    <h3 class="mb-4"><a href="#">Interior Blueprint</a></h3>#}
-                {#                    <p>Lorem ipsum dolor sit ame adipisicing elit. Perspiciatis incidunt distinctio voluptate#}
-                {#                        .</p>#}
-                {#                </div>#}
-                {#            </div>#}
-                {#            <div class="col-md-6 mb-4 col-lg-4" data-aos="fade-up" data-aos-delay="100">#}
-                {#                <div class="service-29193 text-center">#}
-                {#              <span class="img-wrap mb-5">#}
-                {#                <img src={{ asset('fonts/flaticon/svg/005-dinning-table.svg') }} alt="Image" class="img-fluid">#}
-                {#              </span>#}
-                {#                    <h3 class="mb-4"><a href="#">Dinning Table</a></h3>#}
-                {#                    <p>Lorem ipsum dolor sit ame adipisicing elit. Perspiciatis incidunt distinctio voluptate#}
-                {#                        .</p>#}
-                {#                </div>#}
-                {#            </div>#}
-                {#            <div class="col-md-6 mb-4 col-lg-4" data-aos="fade-up" data-aos-delay="200">#}
-                {#                <div class="service-29193 text-center">#}
-                {#              <span class="img-wrap mb-5">#}
-                {#                <img src={{ asset('fonts/flaticon/svg/006-pantone.svg') }} alt="Image" class="img-fluid">#}
-                {#              </span>#}
-                {#                    <h3 class="mb-4"><a href="#">Modern Design</a></h3>#}
-                {#                    <p>Lorem ipsum dolor sit ame adipisicing elit. Perspiciatis incidunt distinctio voluptate#}
-                {#                        .</p>#}
-                {#                </div>#}
-                {#            </div>#}
+                </div>
             </div>
         </div>
     </div>
-    </div><
 {% endblock %}
