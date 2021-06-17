@@ -19,32 +19,15 @@ class BelongRepository extends ServiceEntityRepository
         parent::__construct($registry, Belong::class);
     }
 
-    // /**
-    //  * @return Belong[] Returns an array of Belong objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function findThe($id)
     {
-        return $this->createQueryBuilder('b')
-            ->andWhere('b.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('b.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
+        $em = $this->getEntityManager();
+        return $em->createQuery(
+            " select c.Name, c.price, c.description, c.featured_image, c.id
+        from App\Entity\Drug c, App\Entity\Belong b
+        where b.pharmacy = :val and b.drug=c.id")
+            ->setParameter('val', $id)
             ->getResult()
-        ;
+            ;
     }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Belong
-    {
-        return $this->createQueryBuilder('b')
-            ->andWhere('b.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

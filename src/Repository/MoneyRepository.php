@@ -18,7 +18,15 @@ class MoneyRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Money::class);
     }
-
+    public function returnMoney()
+    {
+        $em = $this->getEntityManager();
+        return $em->createQuery(
+            " select SUM(m.solde)
+        from App\Entity\Money m")
+            ->getResult()
+            ;
+    }
     // /**
     //  * @return Money[] Returns an array of Money objects
     //  */

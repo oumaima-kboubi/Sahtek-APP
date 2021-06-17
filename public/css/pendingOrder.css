@@ -1,0 +1,29 @@
+body {
+    background: #eee
+}
+
+.card {
+    width: 390px;
+    background: #C9CCD4;
+            /*#117A65;*/
+    border-radius: 15px;
+    border: none
+}
+
+.image-background {
+    background: #E6B0AA;
+}
+
+.dots span {
+    height: 5px;
+    width: 5px;
+    margin-right: 3px;
+    margin-bottom: 2px !important;
+    background-color: #000000;
+    border-radius: 50%;
+    display: inline-block
+}
+
+.number {
+    font-size: 14px
+}

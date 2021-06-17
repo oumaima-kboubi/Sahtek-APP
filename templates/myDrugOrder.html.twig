@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Pending Drugs{% endblock %}
+
+{% block body %}
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+    {% for message in app.flashes('error') %}
+        <div class="alert alert-alert">
+            {{ message }}
+        </div>
+    {% endfor %}
+    <div class="row">
+        {% if orders is defined %}
+            {% for order in orders %}
+                <div class="col-sm-6">
+                    <div class="card text-center">
+                        <div class="card-header">
+                            This Order Starts at : {{ order.day|date("F jS \\a\\t g:ia") }}
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title"></h5>
+                            <p class="card-text">Description : {{ order.description }}</p>
+                            <a href="{{ path('approve.drugs.orders', {'id' :  order.id }) }}" class="btn btn-info">Approve Order</a>
+                            <a href="{{ path('refuse.drugs.orders', {'id' :  order.id }) }}" class="btn btn-danger">Refuse Order</a>
+                        </div>
+                        <div class="card-footer text-muted">
+                            {{ order.price }}$
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/drug.css') }}">
+    <link rel="stylesheet" href="{{ asset('bootstrap.css') }}" >
+{% endblock %}

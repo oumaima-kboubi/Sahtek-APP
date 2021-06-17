@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome!</title>
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,700|Raleway:300,400,500,700">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{{ asset('css/city.css') }}">
+</head>
+<body>
+<div class="wrapper-grey padded">
+    <div class="container">
+        <h2 class="text-center">List of Pharmacies :</h2>
+        <h4 class="text-center"><a href="{{ path('routing.homeIn') }}">Go Back To Lobby</a></h4>
+        {% for pharma in pharmacy %}
+            <div class="col-xs-12 col-sm-4">
+                <div class="card" style="background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.2)),
+                        /*url('https://i1.wp.com/handluggageonly.co.uk/wp-content/uploads/2015/05/IMG_2813-s.jpg?w=1600&ssl=1');*/
+                        url('{{ asset(pharma.featuredimage) }}');"
+                >
+                    <div class="card-category">{{ pharma.city }}</div>
+                    <div class="card-description">
+                        <h2>{{ pharma.firstName }}  {{ pharma.LastName }}</h2>
+                        <p><b>Open:</b> {{ pharma.open }}</p>
+                        <p><b>Close:</b> {{ pharma.close }}</p>
+                    </div>
+                     <a class="card-link" href="{{ path('drug.list', { 'id': pharma.id}) }}" ></a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+</body>
+</html>

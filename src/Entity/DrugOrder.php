@@ -2,10 +2,15 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\DrugOrderRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
+ * @ApiResource
+ * @Vich\Uploadable()
  * @ORM\Entity(repositoryClass=DrugOrderRepository::class)
  */
 class DrugOrder
@@ -22,15 +27,7 @@ class DrugOrder
      */
     private $Drug;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Person::class, inversedBy="drugOrders")
-     */
-    private $client;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Person::class, inversedBy="drugOrders")
-     */
-    private $pharmacy;
 
     /**
      * @ORM\Column(type="decimal", precision=10, scale=0)
@@ -47,11 +44,64 @@ class DrugOrder
      */
     private $Approved;
 
+//    /**
+//     * @ORM\Column(type="string", length=255)
+//     */
+//    private $path;
+
+    /**
+     * @Gedmo\Timestampable (on="create")
+     * @ORM\Column(type="datetime")
+     */
+    private $createdAt;
+
+    /**
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Timestampable (on="update")
+     */
+    private $updatedAt;
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @var string
+     *
+     */
+    private $featured_image;
+
+    /**
+     * @Vich\UploadableField(mapping="featured_images",fileNameProperty="featured_image")
+     * @var File
+     */
+    private $imageFile;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $pending;
+
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $path;
+    private $description;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $deleted;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="drugOrders")
+     */
+    private $client;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="drugOrders")
+     */
+    private $pharmacy;
+
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $day;
     public function getId(): ?int
     {
         return $this->id;
@@ -65,30 +115,6 @@ class DrugOrder
     public function setDrug(?Drug $Drug): self
     {
         $this->Drug = $Drug;
-
-        return $this;
-    }
-
-    public function getClient(): ?Person
-    {
-        return $this->client;
-    }
-
-    public function setClient(?Person $client): self
-    {
-        $this->client = $client;
-
-        return $this;
-    }
-
-    public function getPharmacy(): ?Person
-    {
-        return $this->pharmacy;
-    }
-
-    public function setPharmacy(?Person $pharmacy): self
-    {
-        $this->pharmacy = $pharmacy;
 
         return $this;
     }
@@ -129,14 +155,122 @@ class DrugOrder
         return $this;
     }
 
-    public function getPath(): ?string
+
+    public function getCreatedAt(): ?\DateTimeInterface
     {
-        return $this->path;
+        return $this->createdAt;
     }
 
-    public function setPath(string $path): self
+
+    public function getUpdatedAt(): ?\DateTimeInterface
     {
-        $this->path = $path;
+        return $this->updatedAt;
+    }
+
+
+    public function getFeaturedImage()
+    {
+        return $this->featured_image;
+    }
+
+    public function setFeaturedImage(string $featured_image)
+    {
+        $this->featured_image = $featured_image;
+
+        return $this;
+    }
+
+
+    /**
+     * @param mixed $image
+     *
+     */
+    public function setImageFile($image): void
+    {
+        $this->imageFile = $image;
+
+        if ($image) {
+            $this->updatedAt = new \DateTime('now');
+        }
+    }
+
+    /**
+     * @return mixed
+     *
+     */
+    public function getImageFile()
+    {
+        return $this->imageFile;
+    }
+
+    public function getPending(): ?bool
+    {
+        return $this->pending;
+    }
+
+    public function setPending(bool $pending): self
+    {
+        $this->pending = $pending;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function getDeleted(): ?bool
+    {
+        return $this->deleted;
+    }
+
+    public function setDeleted(bool $deleted): self
+    {
+        $this->deleted = $deleted;
+
+        return $this;
+    }
+
+    public function getClient(): ?User
+    {
+        return $this->client;
+    }
+
+    public function setClient(?User $client): self
+    {
+        $this->client = $client;
+
+        return $this;
+    }
+
+    public function getPharmacy(): ?User
+    {
+        return $this->pharmacy;
+    }
+
+    public function setPharmacy(?User $pharmacy): self
+    {
+        $this->pharmacy = $pharmacy;
+
+        return $this;
+    }
+
+    public function getDay(): ?\DateTimeInterface
+    {
+        return $this->day;
+    }
+
+    public function setDay(?\DateTimeInterface $day): self
+    {
+        $this->day = $day;
 
         return $this;
     }

@@ -2,11 +2,15 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\BelongRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
+ * @ApiResource
  * @ORM\Entity(repositoryClass=BelongRepository::class)
+ *
  */
 class Belong
 {
@@ -22,11 +26,7 @@ class Belong
      */
     private $drug;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Person::class, inversedBy="belongs")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $Pharmacy;
+
 
     /**
      * @ORM\Column(type="decimal", precision=10, scale=0)
@@ -53,6 +53,23 @@ class Belong
      */
     private $pourcentage;
 
+    /**
+     * @Gedmo\Timestampable (on="create")
+     * @ORM\Column(type="datetime")
+     */
+    private $createdAt;
+
+    /**
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Timestampable (on="update")
+     */
+    private $updatedAt;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="belongs")
+     */
+    private $pharmacy;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -70,17 +87,7 @@ class Belong
         return $this;
     }
 
-    public function getPharmacy(): ?Person
-    {
-        return $this->Pharmacy;
-    }
 
-    public function setPharmacy(?Person $Pharmacy): self
-    {
-        $this->Pharmacy = $Pharmacy;
-
-        return $this;
-    }
 
     public function getQuantity(): ?string
     {
@@ -141,4 +148,40 @@ class Belong
 
         return $this;
     }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+//    public function setCreatedAt(\DateTimeInterface $createdAt): self
+//    {
+//        $this->createdAt = $createdAt;
+//
+//        return $this;
+//    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+//    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
+//    {
+//        $this->updatedAt = $updatedAt;
+//
+//        return $this;
+//    }
+
+public function getPharmacy(): ?User
+{
+    return $this->pharmacy;
+}
+
+public function setPharmacy(?User $pharmacy): self
+{
+    $this->pharmacy = $pharmacy;
+
+    return $this;
+}
 }

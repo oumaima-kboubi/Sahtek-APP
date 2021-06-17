@@ -1,0 +1,57 @@
+#easy_admin:
+#    # On définit le nom de l'interface d'administration
+#    site_name: 'SahtekAPP administration'
+#    #On définit l'affichage de l'utilisateur
+#    user:
+#        display_name: true
+#        display_avatar: false
+#    design:
+#        # Ces lig,es sont utiles pour CKEditor
+#        form_theme:
+#            - "@EasyAdmin/form/bootstrap_4.html.twig"
+#            - "@FOSCKEditor/Form/ckeditor_widget.html.twig"
+#        # Ces lignes définiront notre menu
+#        menu:
+#            - { label: 'Drug'}
+#            - { entity: 'Drug', label: 'Drug', icon: 'book'}
+#            - { entity: 'Entreprise', label: 'Entreprise', icon: 'house'}
+#            - { lable: 'Users'}
+#            - { entity: 'User', label: 'Users', icon: 'user'}
+#    formats:
+#        # Ici on définit le format des dates
+#        datetime: 'd/m/Y at H:i'
+#    entities:
+#        Drug:
+#            #Correspond au fichier Drug.php
+#            class: App\Entity\Drug
+#            # On definit ci-dessous le contenu de la liste qui affichera les articles et les critères de tri
+#            list:
+#                fields:
+#                    -id
+#                    -name
+#                    #Le champs ci-dessous affichera l'image de l'article
+#                    - { property : 'featured_image', label: 'Image', type : 'image', base_path: '%app.path.featured_images%' }
+#                    - { property : 'created_at', label: 'Created'}
+#                    - { property : 'Name' , label: 'Name' }
+#                    - { property : 'description' , label: 'Description' }
+#                    - { property : 'price' , label: 'Price' }
+#                    - { property : 'Type' , label: 'Type' }
+#                    - { property : 'entreprise' , label: 'Entreprise',  }
+#                sort: ['created_at', 'desc']
+#        Entreprise:
+#            #Correspond au fichier Drug.php
+#            class: App\Entity\Entreprise
+#            # On definit ci-dessous le contenu de la liste qui affichera les articles et les critères de tri
+#            list:
+#                fields:
+#                    -id
+#                    -name
+#                    #Le champs ci-dessous affichera l'image de l'article
+#                    - { property : 'featured_image', label: 'Image', type : 'image', base_path: '%app.path.featured_images%' }
+#                    - { property : 'created_at', label: 'Created'}
+#                    - { property : 'Name' , label: 'Name' }
+#                    - { property : 'description' , label: 'Description' }
+#                    - { property : 'price' , label: 'Price' }
+#                    - { property : 'Type' , label: 'Type' }
+#                    - { property : 'entreprise' , label: 'Entreprise',  }
+#                sort: ['created_at', 'desc']
