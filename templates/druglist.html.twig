@@ -24,7 +24,9 @@
                         <h2>{{ drug.name }}</h2>
                         <p>{{ drug.description }}</p>
                     </div>
+{#                    {% if is granted('ROLE_PHARMACY') %}#}
 {#                    <a class="card-link" href="{{ path(place, { 'drug': drug.name}) }}" ></a>#}
+{#                    {% endif %}#}
                 </div>
             </div>
         {% endfor %}

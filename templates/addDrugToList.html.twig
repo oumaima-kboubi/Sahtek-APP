@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Order a Drug{% endblock %}
+
+{% block body %}
+<br>
+<br>
+<br>
+<main class="d-flex align-items-center min-vh-70 py-3 py-md-0">
+    <div class="container" style="padding-bottom: 40px ; padding-top: 65px">
+        <div class="card" style=" padding: 40px; border-radius: 10px;">
+            {% form_theme form 'bootstrap_4_layout.html.twig' %}
+            <h1 class="logo text-info" style=" text-align: center">Add Drug To List</h1>
+    {{ form(form) }}
+        </div>
+    </div>
+</main>
+    <br>
+    <br>
+    <br>
+{% endblock %}
+

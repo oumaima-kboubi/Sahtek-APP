@@ -12,6 +12,7 @@ use App\Entity\Entreprise;
 use App\Entity\Money;
 use App\Entity\User;
 
+use App\Form\BelongType;
 use App\Form\CareTakerOrderType;
 use App\Form\DrugOrderType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -178,10 +179,10 @@ class RoutingController extends AbstractController
      */
     public function histoCareTaker(User $user): Response
     {
-        $user1= $this->getUser();
+        $user1 = $this->getUser();
         if ($user1 != NULL) {
 
-            $id=$user1->getId();
+            $id = $user1->getId();
             $historiques = $this->getDoctrine()->getRepository(CareTakerOrder::class);
             $exist = $historiques->findBy(['client' => $id, 'deleted' => 0]);
             $today = date("Y-m-d");
@@ -205,20 +206,21 @@ class RoutingController extends AbstractController
             );
         }
     }
-        /**
-     *@Route("/consult/order/{id}", name="histo.consult.drugorder")
+
+    /**
+     * @Route("/consult/order/{id}", name="histo.consult.drugorder")
      */
-    public function histoDrugOrder($id) : Response
+    public function histoDrugOrder($id): Response
     {
         $historiques = $this->getDoctrine()->getRepository(DrugOrder::class);
         $exist = $historiques->findBy(['client' => $id, 'deleted' => 0]);
         $today = date("Y-m-d");
-        $lastweek = date("Y-m-d",strtotime('-7 day'));
-        $lastmonth= date("Y-m-d",strtotime('-30 day'));
+        $lastweek = date("Y-m-d", strtotime('-7 day'));
+        $lastmonth = date("Y-m-d", strtotime('-30 day'));
         $lastweeks = $historiques->findForWeek($id, $today, $lastweek);
         $lastmonths = $historiques->findForMonth($id, $lastweek, $lastmonth);
         $rest = $historiques->findTheRest($id, $lastmonth);
-        if($exist) {
+        if ($exist) {
             return $this->render('histoDrugOrderr.html.twig', [
                 'listes' => $exist,
                 'client' => $id,
@@ -231,15 +233,16 @@ class RoutingController extends AbstractController
             "<h1>This page is currently empty</h1>"
         );
     }
+
     /**
      * @Route("/delete/histo/drug/{id}/{idd}",name="histoDrug.delete")
      */
-    public function deleteHistoDrug ($id, $idd) : Response
+    public function deleteHistoDrug($id, $idd): Response
     {
-        $repository= $this->getDoctrine()->getRepository(DrugOrder::class);
+        $repository = $this->getDoctrine()->getRepository(DrugOrder::class);
         $exist = $repository->find($id);
-        if($exist) {
-            $manager=$this->getDoctrine()->getManager();
+        if ($exist) {
+            $manager = $this->getDoctrine()->getManager();
             $exist->setDeleted(1);
             $manager->persist($exist);
             $manager->flush();
@@ -247,8 +250,9 @@ class RoutingController extends AbstractController
         } else {
             $this->addFlash('error', 'Id n\'existe pas');
         }
-        return $this->redirectToRoute('histo.consult.drugorder', [ 'id' => $idd ]);
+        return $this->redirectToRoute('histo.consult.drugorder', ['id' => $idd]);
     }
+
     /**
      * @Route("/delete/histo/taker/{id}/{idd}",name="histoTaker.delete")
      */
@@ -271,7 +275,7 @@ class RoutingController extends AbstractController
     /**
      * @Route("/affich/city/{place}", name="city.afficher")
      */
-    public function affichCity($place) : Response
+    public function affichCity($place): Response
     {
         $repository = $this->getDoctrine()->getRepository(City::class);
         $cities = $repository->findAll();
@@ -280,13 +284,14 @@ class RoutingController extends AbstractController
             'place' => $place
         ]);
     }
+
     /**
      * @Route("/pharmacy/list/{city}", name="pharmacy.list")
      */
-    public function affichPharmacy($city) : Response
+    public function affichPharmacy($city): Response
     {
         $repository = $this->getDoctrine()->getRepository(User::class);
-        if ($city == 'null'){
+        if ($city == 'null') {
             $pharmacy = $repository->findBy(['role' => 'ROLE_PHARMACY']);
 
         } else {
@@ -303,11 +308,11 @@ class RoutingController extends AbstractController
     /**
      * @Route("/care/affich/{city}", name="caretaker.affich")
      */
-    public function afficherCareTaker($city) : Response
+    public function afficherCareTaker($city): Response
     {
         $repository = $this->getDoctrine()->getRepository(User::class);
         $caretaker = $repository->findBy(['city' => $city, 'role' => 'ROLE_CARETAKER']);
-        if($caretaker){
+        if ($caretaker) {
             return $this->render('careTaker.html.twig', [
                 'caretakers' => $caretaker
             ]);
@@ -315,27 +320,28 @@ class RoutingController extends AbstractController
         $this->addFlash('error', 'careTakers in this city are nonexistent');
         return $this->render('careTaker.html.twig');
     }
+
     /**
      * @Route("/hire/care/{id}", name="caretaker.hire")
      */
-    public function orderCareTaker(Request $request, EntityManagerInterface $manager, $id ) : Response
+    public function orderCareTaker(Request $request, EntityManagerInterface $manager, $id): Response
     {
-         $userId = $this->getUser()->getId();
-         $user = $this->getUser();
-         $takerId = $id;
-         $day=$request->query->get('day');
-       //  $takerUser= $this->getUser();
+        $userId = $this->getUser()->getId();
+        $user = $this->getUser();
+        $takerId = $id;
+        $day = $request->query->get('day');
+        //  $takerUser= $this->getUser();
         $repository = $this->getDoctrine()->getRepository(User::class);
-      //  $pharma= $repository->findOneBy(['id' => 1]);
+        //  $pharma= $repository->findOneBy(['id' => 1]);
         //$user =$repository->findOneBy(['id' => 2]);
-        $takerUser=$repository->findOneBy(['id' => $id]);
-        if(!$user || !$takerId){
+        $takerUser = $repository->findOneBy(['id' => $id]);
+        if (!$user || !$takerId) {
             return new Response('<h1> There is no user or caretaker</h1>');
 //                $this->render('hireTaker.html.twig');
-        }else {
+        } else {
             $order = new CareTakerOrder();
             $form = $this->createForm(CareTakerOrderType::class, $order);
-         //   $form->remove('pharmacy');
+            //   $form->remove('pharmacy');
             $form->remove('approved');
             $form->remove('Pending');
             $form->remove('client');
@@ -343,8 +349,8 @@ class RoutingController extends AbstractController
             $form->remove('deleted');
             $form->remove('day');
             $form->handleRequest($request);
-            if ($form->isSubmitted() && $form->isValid()){
-            //    $order->setPharmacy($pharma);
+            if ($form->isSubmitted() && $form->isValid()) {
+                //    $order->setPharmacy($pharma);
                 $order->setApproved(0);
                 $order->setCaretaker($takerUser);
                 $order->setClient($user);
@@ -353,7 +359,7 @@ class RoutingController extends AbstractController
                 $order->setDay(new \DateTime());
                 $manager->persist($order);
                 $manager->flush();
-                return $this->redirectToRoute("caretaker.affich",['city' => $takerUser->getCity()]);
+                return $this->redirectToRoute("caretaker.affich", ['city' => $takerUser->getCity()]);
             }
             return $this->render('hireTaker.html.twig', [
                 'form' => $form->createView()
@@ -364,19 +370,20 @@ class RoutingController extends AbstractController
     /**
      * @Route("/pending/taker/{id}", name="pending.taker")
      */
-    public function affichPendingTaker($id) : Response
+    public function affichPendingTaker($id): Response
     {
         $repository = $this->getDoctrine()->getRepository(CareTakerOrder::class);
         $orders = $repository->findOrder($id);
-       // dd($orders);
+        // dd($orders);
         return $this->render('pendingTaker.html.twig', [
             'orders' => $orders
         ]);
     }
+
     /**
      * @Route("/pending/order/{id}", name="pending.order")
      */
-    public function affichPendingOrder($id) : Response
+    public function affichPendingOrder($id): Response
     {
         $repository = $this->getDoctrine()->getRepository(DrugOrder::class);
         $orders = $repository->findOrder($id);
@@ -384,23 +391,25 @@ class RoutingController extends AbstractController
             'orders' => $orders
         ]);
     }
+
     /**
      * @Route("/consult/my/orders/{id}", name="consult.taker.orders")
      */
-    public function affichMyOrders($id) : Response
+    public function affichMyOrders($id): Response
     {
         $repository = $this->getDoctrine()->getRepository(CareTakerOrder::class);
         $orders = $repository->findBy(['caretaker' => $id, 'pending' => 1]);
-        return $this->render('myTakerOrder.html.twig',[
+        return $this->render('myTakerOrder.html.twig', [
             'orders' => $orders
         ]);
     }
+
     /**
      * @Route("/consult/approve/orders/{id}", name="approve.taker.orders")
      */
-    public function approveTakerOrder($id, EntityManagerInterface $manager) : Response
+    public function approveTakerOrder($id, EntityManagerInterface $manager): Response
     {
-        $user =$this->getUser()->getId();
+        $user = $this->getUser()->getId();
         $repository = $this->getDoctrine()->getRepository(CareTakerOrder::class);
         $repository1 = $this->getDoctrine()->getRepository(User::class);
         $repository2 = $this->getDoctrine()->getRepository(Money::class);
@@ -409,10 +418,10 @@ class RoutingController extends AbstractController
         $money = $repository2->findOneBy(['id' => 1]);
         $caretaker = $repository1->findOneBy(['id' => $order->getCaretaker()]);
         $order->setPending(0);
-        $a =$client->getSolde()-$order->getPrice();
-        $b=$money->getSolde()+ ($order->getPrice()*0.05);
-        $c=$caretaker->getSolde()+ ($order->getPrice()*0.95);
-        $client->setSolde($a );
+        $a = $client->getSolde() - $order->getPrice();
+        $b = $money->getSolde() + ($order->getPrice() * 0.05);
+        $c = $caretaker->getSolde() + ($order->getPrice() * 0.95);
+        $client->setSolde($a);
         $money->setSolde($b);
         $caretaker->setSolde($c);
         $manager->persist($order);
@@ -423,12 +432,13 @@ class RoutingController extends AbstractController
         $this->addFlash('success', 'Order approved with success');
         return $this->redirectToRoute('consult.taker.orders', ['id' => $user]);
     }
+
     /**
      * @Route("/consult/refuse/orders/{id}", name="refuse.taker.orders")
      */
-    public function refuseTakerOrder($id, EntityManagerInterface $manager):Response
+    public function refuseTakerOrder($id, EntityManagerInterface $manager): Response
     {
-        $user =$this->getUser()->getId();
+        $user = $this->getUser()->getId();
         $repository = $this->getDoctrine()->getRepository(CareTakerOrder::class);
         $order = $repository->findOneBy(['id' => $id]);
         $order->setPending(0);
@@ -443,7 +453,7 @@ class RoutingController extends AbstractController
      * @Route("/category/list/{place}", name="category.list")
      */
 //    category/list/drug.affich
-    public function affichCategory($place) : Response
+    public function affichCategory($place): Response
     {
         $repository = $this->getDoctrine()->getRepository(Category::class);
 
@@ -453,14 +463,15 @@ class RoutingController extends AbstractController
             'place' => $place
         ]);
     }
+
     /**
      * @Route("/drugAffiche/{category}", name="drug.affich")
      */
-    public function afficherDrugs($category) : Response
+    public function afficherDrugs($category): Response
     {
         $repository = $this->getDoctrine()->getRepository(Drug::class);
         $drugs = $repository->findBy(['type' => $category]);
-        if($drugs){
+        if ($drugs) {
             return $this->render('druglist.html.twig', [
                 'drugs' => $drugs
             ]);
@@ -472,7 +483,7 @@ class RoutingController extends AbstractController
      * @Route("/entreprise/list/{place}", name="entreprise.list")
      */
 //    category/list/drug.affich
-    public function affichEntreprise($place) : Response
+    public function affichEntreprise($place): Response
     {
         $repository = $this->getDoctrine()->getRepository(Entreprise::class);
 
@@ -482,14 +493,15 @@ class RoutingController extends AbstractController
             'place' => $place
         ]);
     }
- /**
+
+    /**
      * @Route("/entrepriseAffiche/{entreprise}", name="entreprise.affich")
      */
-    public function afficherEntreprise($entreprise) : Response
+    public function afficherEntreprise($entreprise): Response
     {
         $repository = $this->getDoctrine()->getRepository(Drug::class);
         $drugs = $repository->findBy(['entreprise' => $entreprise]);
-        if($drugs){
+        if ($drugs) {
             return $this->render('druglist.html.twig', [
                 'drugs' => $drugs
             ]);
@@ -501,21 +513,21 @@ class RoutingController extends AbstractController
     /**
      * @Route("/drugOrder/{id}", name="drug.order")
      */
-    public function orderDrug(Request $request, EntityManagerInterface $manager, $id ) : Response
+    public function orderDrug(Request $request, EntityManagerInterface $manager, $id): Response
     {
         $userId = $this->getUser()->getId();
         $user = $this->getUser();
         $takerId = $id;
-        $day=$request->query->get('day');
+        $day = $request->query->get('day');
         //  $takerUser= $this->getUser();
         $repository = $this->getDoctrine()->getRepository(User::class);
         //  $pharma= $repository->findOneBy(['id' => 1]);
         //$user =$repository->findOneBy(['id' => 2]);
-        $takerUser=$repository->findOneBy(['id' => $id]);
-        if(!$user || !$takerId){
+        $takerUser = $repository->findOneBy(['id' => $id]);
+        if (!$user || !$takerId) {
             return new Response('<h1> There is no user or caretaker</h1>');
 //                $this->render('hireTaker.html.twig');
-        }else {
+        } else {
             $order = new CareTakerOrder();
             $form = $this->createForm(CareTakerOrderType::class, $order);
             //   $form->remove('pharmacy');
@@ -526,7 +538,7 @@ class RoutingController extends AbstractController
             $form->remove('deleted');
             $form->remove('day');
             $form->handleRequest($request);
-            if ($form->isSubmitted() && $form->isValid()){
+            if ($form->isSubmitted() && $form->isValid()) {
                 //    $order->setPharmacy($pharma);
                 $order->setApproved(0);
                 $order->setCaretaker($takerUser);
@@ -536,7 +548,7 @@ class RoutingController extends AbstractController
                 $order->setDay(new \DateTime());
                 $manager->persist($order);
                 $manager->flush();
-                return $this->redirectToRoute("caretaker.affich",['city' => $takerUser->getCity()]);
+                return $this->redirectToRoute("caretaker.affich", ['city' => $takerUser->getCity()]);
             }
             return $this->render('hireTaker.html.twig', [
                 'form' => $form->createView()
@@ -547,7 +559,7 @@ class RoutingController extends AbstractController
     /**
      * @Route("/drug/list/{id}", name="drug.list")
      */
-    public function affichDrug($id) : Response
+    public function affichDrug($id): Response
     {
         $repository = $this->getDoctrine()->getRepository(Belong::class);
         $drugs = $repository->findThe($id);
@@ -560,18 +572,18 @@ class RoutingController extends AbstractController
     /**
      * @Route("/order/drug/{id}/{idd}", name="drug.order.client")
      */
-    public function orderDrugs(Request $request, EntityManagerInterface $manager, $id, $idd) : Response
+    public function orderDrugs(Request $request, EntityManagerInterface $manager, $id, $idd): Response
     {
-         $idUser = $this->getUser()->getId();
+        $idUser = $this->getUser()->getId();
         // $takerId = $request->query->get('taker');
         $repository = $this->getDoctrine()->getRepository(User::class);
         $repository1 = $this->getDoctrine()->getRepository(Drug::class);
-        $pharma= $repository->findOneBy(['id' => $idd]);
-        $user =$repository->findOneBy(['id' => $idUser ]);
-        $drug=$repository1->findOneBy(['id' => $id]);
-        if(!$user || !$drug){
+        $pharma = $repository->findOneBy(['id' => $idd]);
+        $user = $repository->findOneBy(['id' => $idUser]);
+        $drug = $repository1->findOneBy(['id' => $id]);
+        if (!$user || !$drug) {
             return new Response("<h1> Problem :( </h1>");
-        }else {
+        } else {
             $order = new DrugOrder();
             $form = $this->createForm(DrugOrderType::class, $order);
             $form->remove('pharmacy');
@@ -583,7 +595,7 @@ class RoutingController extends AbstractController
             $form->remove('deleted');
             $form->remove('price');
             $form->handleRequest($request);
-            if ($form->isSubmitted() && $form->isValid()){
+            if ($form->isSubmitted() && $form->isValid()) {
                 $order->setPharmacy($pharma);
                 $order->setApproved(0);
                 $order->setDrug($drug);
@@ -607,11 +619,120 @@ class RoutingController extends AbstractController
                 $order->setFeaturedImage($user->getFeaturedImage());
                 $manager->persist($order);
                 $manager->flush();
-                return $this->redirectToRoute("drug.list",['id' => $idd]);
+                return $this->redirectToRoute("drug.list", ['id' => $idd]);
             }
             return $this->render('orderDrug.html.twig', [
                 'form' => $form->createView()
             ]);
         }
+    }
+
+
+    /**
+     * @Route("/pharmacy/add/list/{id}", name="drug.list.add")
+     */
+    public function addDrugToList(Request $request, EntityManagerInterface $manager, $id): Response
+    {
+        $idUser = $this->getUser()->getId();
+        $repository1 = $this->getDoctrine()->getRepository(User::class);
+        $repository2 = $this->getDoctrine()->getRepository(Drug::class);
+        $repository = $this->getDoctrine()->getRepository(Belong::class);
+        $pharma = $repository1->findOneBy(['id' => $idUser]);
+        $drug = $repository2->findOneBy(['id' => $id]);
+        $exist = $repository->findOneBy(['drug' => $id, 'pharmacy' => $idUser]);
+        if (!$pharma || !$drug) {
+            return new Response("<h1> Problem :( </h1>");
+        } else {
+            $order = new Belong();
+            $form = $this->createForm(BelongType::class, $order);
+            $form->remove('Pharmacy');
+            $form->remove('Promotion');
+            $form->remove('finalPrice');
+            $form->remove('InitialPrice');
+            $form->remove('pourcentage');
+            $form->remove('drug');
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+                $order->setPharmacy($pharma);
+                $order->setPourcentage(0);
+                $order->setInitialPrice($drug->getPrice());
+                $order->setFinalPrice(0);
+                $order->setPromotion(0);
+                $order->setDrug($drug);
+                if ($exist) {
+                    $i = $order->getQuantity() + $exist->getQuantity();
+                    $exist->setQuantity($i);
+                    $manager->persist($exist);
+                    $manager->flush();
+                    return $this->redirectToRoute("category.list", ['place' => 'drug.affich']);
+                }
+                $manager->persist($order);
+                $manager->flush();
+                return $this->redirectToRoute("category.list", ['place' => 'drug.affich']);
+            }
+            return $this->render('addDrugToList.html.twig', [
+                'form' => $form->createView()
+            ]);
+        }
+    }
+
+    /**
+     * @Route("/consult/my/drugs/{id}", name="consult.drugs.orders")
+     */
+    public function affichMyDrugs($id): Response
+    {
+        $repository = $this->getDoctrine()->getRepository(DrugOrder::class);
+        $orders = $repository->findBy(['pharmacy' => $id, 'pending' => 1]);
+        return $this->render('MyDrugOrder.html.twig', [
+            'orders' => $orders
+        ]);
+    }
+
+    /**  * @Route("/consult/refuse/drugs/{id}", name="refuse.drugs.orders") */
+    public function refuseDrugsOrder($id, EntityManagerInterface $manager): Response
+    {
+        $user = $this->getUser()->getId();
+        $repository = $this->getDoctrine()->getRepository(DrugOrder::class);
+        $order = $repository->findOneBy(['id' => $id]);
+        $order->setPending(0);
+        $manager->persist($order);
+        $manager->flush();
+        $this->addFlash('error', 'Order Refused :( ');
+        return $this->redirectToRoute('consult.drugs.orders', ['id' => $user]);
+    }
+
+    /**  * @Route("/consult/approve/drugs/{id}", name="approve.drugs.orders") */
+    public function approveDrugsOrder($id, EntityManagerInterface $manager): Response
+    {
+        $user = $this->getUser()->getId();
+        $repository = $this->getDoctrine()->getRepository(DrugOrder::class);
+        $repository1 = $this->getDoctrine()->getRepository(User::class);
+        $repository2 = $this->getDoctrine()->getRepository(Money::class);
+
+
+        $order = $repository->findOneBy(['id' => $id]);
+        $client = $repository1->findOneBy(['id' => $order->getClient()]);
+        $money = $repository2->findOneBy(['id' => $user]);
+        $pharmacy = $repository1->findOneBy(['id' => $order->getPharmacy()]);
+        $order->setPending(0);
+
+
+        $a = $client->getSolde() - $order->getPrice();
+        $b = $money->getSolde() + ($order->getPrice() * 0.05);
+        $c = $pharmacy->getSolde() + ($order->getPrice() * 0.95);
+
+
+        $client->setSolde($a);
+        $money->setSolde($b);
+        $pharmacy->setSolde($c);
+
+
+        $manager->persist($order);
+        $manager->persist($client);
+        $manager->persist($money);
+        $manager->persist($pharmacy);
+        $manager->flush();
+        $this->addFlash('success', 'Order approved with success');
+        return $this->redirectToRoute('consult.drugs.orders', ['id' => $user]);
     }
 }
