@@ -60,6 +60,14 @@ class RoutingController extends AbstractController
     {
         return $this->render('TermOfUseIn.html.twig');
     }
+    /**
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @Route("/about",name="routing.about")
+     */
+    public function about()
+    {
+        return $this->render('aboutUs.html.twig');
+    }
 
     /**
      * @return \Symfony\Component\HttpFoundation\Response
@@ -298,7 +306,11 @@ class RoutingController extends AbstractController
             $pharmacy = $repository->findBy(['city' => $city, 'role' => 'ROLE_PHARMACY']);
 
         }
-
+//        if ($pharmacy == []){
+//            return $this->render('pharmacieslist.html.twig', [
+//                'pharmacy' => '<h1>Sorry! There is no pharmacies in this region!</h1>'
+//            ]);
+//        }
         return $this->render('pharmacieslist.html.twig', [
             'pharmacy' => $pharmacy
         ]);
@@ -312,13 +324,13 @@ class RoutingController extends AbstractController
     {
         $repository = $this->getDoctrine()->getRepository(User::class);
         $caretaker = $repository->findBy(['city' => $city, 'role' => 'ROLE_CARETAKER']);
-        if ($caretaker) {
+//        if ($caretaker) {
             return $this->render('careTaker.html.twig', [
                 'caretakers' => $caretaker
             ]);
-        }
-        $this->addFlash('error', 'careTakers in this city are nonexistent');
-        return $this->render('careTaker.html.twig');
+//        }
+//        $this->addFlash('error', 'careTakers in this city are nonexistent');
+//        return $this->render('careTaker.html.twig');
     }
 
     /**
@@ -471,13 +483,13 @@ class RoutingController extends AbstractController
     {
         $repository = $this->getDoctrine()->getRepository(Drug::class);
         $drugs = $repository->findBy(['type' => $category]);
-        if ($drugs) {
+      //  if ($drugs) {
             return $this->render('druglist.html.twig', [
                 'drugs' => $drugs
             ]);
-        }
-        $this->addFlash('error', 'drugs in this city are nonexistent');
-        return $this->render('druglist.html.twig');
+     //   }
+     //   $this->addFlash('error', 'drugs in this city are nonexistent');
+      //  return $this->render('druglist.html.twig');
     }
     /**
      * @Route("/entreprise/list/{place}", name="entreprise.list")

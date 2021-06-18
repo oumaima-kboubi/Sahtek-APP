@@ -24,6 +24,10 @@
      <br>
      <br>
      <br>
+    {% if orders == [] %}
+     <div class="text-center">No pending orders yet!</h1>
+     </div>
+     {% else %}
 
 {% for order in orders %}
 <div class="container  mt-5">
@@ -41,6 +45,7 @@
     </div>
 </div>
 {% endfor %}
+     {% endif %}
      <br>
      <br>
      <br>

@@ -13,21 +13,27 @@
     <div class="container">
         <h2 class="text-center">List of Drug's Companies : Choose One</h2>
         <h4 class="text-center"><a href="{{ path('routing.homeIn') }}">Go Back To Lobby</a></h4>
-        {% for entreprise in entreprises %}
-            <div class="col-xs-12 col-sm-4">
-                <div class="card" style="background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.2)),
-                        /*url('https://i1.wp.com/handluggageonly.co.uk/wp-content/uploads/2015/05/IMG_2813-s.jpg?w=1600&ssl=1');*/
-                        url('{{ asset(entreprise.featuredimage) }}');"
-                >
-                    <div class="card-category">Drug Category</div>
-                    <div class="card-description">
-                        <h2>{{ entreprise.name }}</h2>
-                        <p>{{ entreprise.description }}</p>
-                    </div>
-                    <a class="card-link" href="{{ path(place, { 'entreprise': entreprise.id}) }}" ></a>
-                </div>
+        {% if entreprises == [] %}
+            <div class="text-center">
+                <h1>Sorry! There is no enreprises in here!</h1>
             </div>
-        {% endfor %}
+        {% else %}
+            {% for entreprise in entreprises %}
+                <div class="col-xs-12 col-sm-4">
+                    <div class="card" style="background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.2)),
+                            /*url('https://i1.wp.com/handluggageonly.co.uk/wp-content/uploads/2015/05/IMG_2813-s.jpg?w=1600&ssl=1');*/
+                            url('{{ asset(entreprise.featuredimage) }}');"
+                    >
+                        <div class="card-category">Drug Category</div>
+                        <div class="card-description">
+                            <h2>{{ entreprise.name }}</h2>
+                            <p>{{ entreprise.description }}</p>
+                        </div>
+                        <a class="card-link" href="{{ path(place, { 'entreprise': entreprise.id}) }}"></a>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
     </div>
 </div>
 </div>

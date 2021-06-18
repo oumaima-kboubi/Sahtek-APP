@@ -86,8 +86,9 @@
                             {% else %} Yes {% endif %}
                         </td>
                         <td>
-                            <a href="{{ path('histoTaker.delete', { 'id' : liste.id, 'idd' : client }) }}" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE5C9</i>
-                            </a>
+{#                            <a href="{{ path('histoTaker.delete', { 'id' : liste.id, 'idd' : client }) }}" class="fas fa-trash-alt" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE5C9</i></a>#}
+                                <button href="{{ path('histoTaker.delete', { 'id' : liste.id, 'idd' : client }) }}"  title="Delete" data-toggle="tooltip" class="alert-danger">x</button>
+{#                            <i class="fas fa-trash-alt"></i>#}
                         </td>
                     </tr>
                 {% endif %}
