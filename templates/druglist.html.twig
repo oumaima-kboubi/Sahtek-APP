@@ -11,25 +11,42 @@
 <body>
 <div class="wrapper-grey padded">
     <div class="container">
-        <h2 class="text-center">List of Drugs :</h2>
-        <h4 class="text-center"><a href="{{ path('routing.homeIn') }}">Go Back To Lobby</a></h4>
-        {% for drug in drugs %}
-            <div class="col-xs-12 col-sm-4">
-                <div class="card" style="background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.2)),
-                        /*url('https://i1.wp.com/handluggageonly.co.uk/wp-content/uploads/2015/05/IMG_2813-s.jpg?w=1600&ssl=1');*/
-                        url('{{ asset(drug.featuredimage) }}');"
-                >
-                    <div class="card-category">Tunisia</div>
-                    <div class="card-description">
-                        <h2>{{ drug.name }}</h2>
-                        <p>{{ drug.description }}</p>
-                    </div>
-{#                    {% if is granted('ROLE_PHARMACY') %}#}
-{#                    <a class="card-link" href="{{ path(place, { 'drug': drug.name}) }}" ></a>#}
-{#                    {% endif %}#}
-                </div>
+
+        <h2 class="text-center ">List of Drugs :</h2>
+        <div class="row">
+        <h4 class="text-center col-md-6 mb-4 col-lg-4"><a href="{{ path('routing.homeIn') }}">Go Back To Lobby</a></h4>
+{#        <h4 class="text-center"><b>OR</b></h4>#}
+        <h4 class="text-center col-md-6 mb-4 col-lg-4"><a href="{{ path('category.list',{ 'place' : 'drug.affich'}) }}">Go To The Categories' List</a></h4>
+{#        <h4 class="text-center"><b>OR</b></h4>#}
+        <h4 class="text-center col-md-6 mb-4 col-lg-4"><a href="{{ path('entreprise.list',{ 'place' : 'entreprise.affich'}) }}">Go To The Entreprises' List</a></h4>
+        </div>
+        <br>
+        <br>
+        <br>
+        {% if drugs == [] %}
+            <div class="text-center">
+                <h1>Sorry! There is no drugs in this category yet! <br> <br>Thanks for looking here
+                    dear {{ app.user.firstname }} {{ app.user.lastname }}</h1>
             </div>
-        {% endfor %}
+        {% else %}
+            {% for drug in drugs %}
+                <div class="col-xs-12 col-sm-4">
+                    <div class="card" style="background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.2)),
+                            /*url('https://i1.wp.com/handluggageonly.co.uk/wp-content/uploads/2015/05/IMG_2813-s.jpg?w=1600&ssl=1');*/
+                            url('{{ asset(drug.featuredimage) }}');"
+                    >
+                        <div class="card-category">Tunisia</div>
+                        <div class="card-description">
+                            <h2>{{ drug.name }}</h2>
+                            <p>{{ drug.description }}</p>
+                        </div>
+                        {# {% if is granted('ROLE_PHARMACY') %} #}
+                        {# <a class="card-link" href="{{ path(place, { 'drug': drug.name}) }}" ></a> #}
+                        {# {% endif %} #}
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
     </div>
 </div>
 </div>

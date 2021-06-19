@@ -1,22 +1,22 @@
 {% extends 'base.html.twig' %}
-{#<!doctype html>#}
-{#<html lang="en">#}
-{#<head>#}
-{#    <meta charset="UTF-8">#}
-{#    <meta name="viewport"#}
-{#          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">#}
-{#    <meta http-equiv="X-UA-Compatible" content="ie=edge">#}
+{# <!doctype html> #}
+{# <html lang="en"> #}
+{# <head> #}
+{# <meta charset="UTF-8"> #}
+{# <meta name="viewport" #}
+{# content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"> #}
+{# <meta http-equiv="X-UA-Compatible" content="ie=edge"> #}
     {% block stylesheet %}
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js">
-    <link rel="stylesheet" href="{{ asset('css/pendingOrder.css') }}">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js">
+        <link rel="stylesheet" href="{{ asset('css/pendingOrder.css') }}">
 
     {% endblock %}
    {% block title %}Pending Orders{% endblock %}
-{#    <title>Document</title>#}
-{#</head>#}
+{# <title>Document</title> #}
+{# </head> #}
 
-{#<body>#}
+{# <body> #}
  {% block body %}
      <br>
      <br>
@@ -25,26 +25,40 @@
      <br>
      <br>
 
-{% for order in orders %}
-<div class="container  mt-5">
-    <div class="card text-white">
-        <div class="text-right image-background mt-4 mb-2">
-            <div class="px-2"><B>{{ order.Name }}</B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <img src="https://img.icons8.com/nolan/64/sim-card-chip.png" width="40" /> </div>
-        </div>
-        <div class="px-2 mt-2">
-            <h5>{{ order.price}} $</h5>
-        </div>
-        <div class="d-flex flex-row align-items-center px-2">
-            <div class="dots mr-1"> <span></span> <span></span> <span></span> <span></span> </div> <span class="number">qty: {{ order.quantity }}</span>
-        </div>
-        <div class="d-flex justify-content-between align-items-center mt-2 px-2 mb-2"> <span>{{ order.createdAt | date("m/d/Y")}}</span>  </div>
-    </div>
+     {% if orders == [] %}
+         <div class=" container">
+             <h1 class="text-center">No orders for today!</h1>
+         </div>
+     {% else %}
+
+
+<div class="container">
+         <h4 class="mb-4 text-right"><a href="{{ path('routing.homeIn') }}">Go Back To Lobby</a></h4>
 </div>
-{% endfor %}
+         {% for order in orders %}
+             <div class="container  mt-5">
+                 <div class="card text-white">
+                     <div class="text-right image-background mt-4 mb-2">
+                         <div class="px-2"><B>{{ order.Name }}</B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                             <img src="https://img.icons8.com/nolan/64/sim-card-chip.png" width="40"/></div>
+                     </div>
+                     <div class="px-2 mt-2">
+                         <h5>{{ order.price }} $</h5>
+                     </div>
+                     <div class="d-flex flex-row align-items-center px-2">
+                         <div class="dots mr-1"><span></span> <span></span> <span></span> <span></span></div>
+                         <span class="number">qty: {{ order.quantity }}</span>
+                     </div>
+                     <div class="d-flex justify-content-between align-items-center mt-2 px-2 mb-2">
+                         <span>{{ order.createdAt | date("m/d/Y") }}</span></div>
+                 </div>
+             </div>
+         {% endfor %}
+     {% endif %}
      <br>
      <br>
      <br>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-{% endblock %}
-{#</body>#}
-{#</html>#}
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+ {% endblock %}
+{# </body> #}
+{# </html> #}

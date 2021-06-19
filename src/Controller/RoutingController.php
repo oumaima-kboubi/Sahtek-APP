@@ -60,6 +60,14 @@ class RoutingController extends AbstractController
     {
         return $this->render('TermOfUseIn.html.twig');
     }
+    /**
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @Route("/about",name="routing.about")
+     */
+    public function about()
+    {
+        return $this->render('aboutUs.html.twig');
+    }
 
     /**
      * @return \Symfony\Component\HttpFoundation\Response
@@ -298,7 +306,11 @@ class RoutingController extends AbstractController
             $pharmacy = $repository->findBy(['city' => $city, 'role' => 'ROLE_PHARMACY']);
 
         }
-
+//        if ($pharmacy == []){
+//            return $this->render('pharmacieslist.html.twig', [
+//                'pharmacy' => '<h1>Sorry! There is no pharmacies in this region!</h1>'
+//            ]);
+//        }
         return $this->render('pharmacieslist.html.twig', [
             'pharmacy' => $pharmacy
         ]);
@@ -312,13 +324,13 @@ class RoutingController extends AbstractController
     {
         $repository = $this->getDoctrine()->getRepository(User::class);
         $caretaker = $repository->findBy(['city' => $city, 'role' => 'ROLE_CARETAKER']);
-        if ($caretaker) {
+//        if ($caretaker) {
             return $this->render('careTaker.html.twig', [
                 'caretakers' => $caretaker
             ]);
-        }
-        $this->addFlash('error', 'careTakers in this city are nonexistent');
-        return $this->render('careTaker.html.twig');
+//        }
+//        $this->addFlash('error', 'careTakers in this city are nonexistent');
+//        return $this->render('careTaker.html.twig');
     }
 
     /**
@@ -471,13 +483,13 @@ class RoutingController extends AbstractController
     {
         $repository = $this->getDoctrine()->getRepository(Drug::class);
         $drugs = $repository->findBy(['type' => $category]);
-        if ($drugs) {
+      //  if ($drugs) {
             return $this->render('druglist.html.twig', [
                 'drugs' => $drugs
             ]);
-        }
-        $this->addFlash('error', 'drugs in this city are nonexistent');
-        return $this->render('druglist.html.twig');
+     //   }
+     //   $this->addFlash('error', 'drugs in this city are nonexistent');
+      //  return $this->render('druglist.html.twig');
     }
     /**
      * @Route("/entreprise/list/{place}", name="entreprise.list")
@@ -695,6 +707,7 @@ class RoutingController extends AbstractController
         $repository = $this->getDoctrine()->getRepository(DrugOrder::class);
         $order = $repository->findOneBy(['id' => $id]);
         $order->setPending(0);
+        $order->setApproved(0);
         $manager->persist($order);
         $manager->flush();
         $this->addFlash('error', 'Order Refused :( ');
@@ -711,10 +724,11 @@ class RoutingController extends AbstractController
 
 
         $order = $repository->findOneBy(['id' => $id]);
-        $client = $repository1->findOneBy(['id' => $order->getClient()]);
-        $money = $repository2->findOneBy(['id' => $user]);
-        $pharmacy = $repository1->findOneBy(['id' => $order->getPharmacy()]);
+        $client = $repository1->findOneBy(['id' => $order->getClient()->getId()]);
+        $money = $repository2->findOneBy(['id' => 1]);
+        $pharmacy = $repository1->findOneBy(['id' => $order->getPharmacy()->getId()]);
         $order->setPending(0);
+        $order->setApproved(true);
 
 
         $a = $client->getSolde() - $order->getPrice();
@@ -735,4 +749,71 @@ class RoutingController extends AbstractController
         $this->addFlash('success', 'Order approved with success');
         return $this->redirectToRoute('consult.drugs.orders', ['id' => $user]);
     }
+
+    /**
+     * @Route("/statistic/map/dash/{id}", name="statistic.map.dash")
+     */
+    public function mapIt($id) : Response
+    {
+        $repository = $this->getDoctrine()->getRepository(User::class);
+        $pharmacy = $repository->findOneBy(['id' => $id]);
+        return $this->render('map.html.twig', [
+            'pharmacy' => $pharmacy
+        ]);
+    }
+
+    /**
+     * @Route("/statistic/user/dash/{id}", name="statistic.user.dash")
+     */
+    public function index1($id): Response
+    {
+        $repository = $this->getDoctrine()->getRepository(DrugOrder::class);
+        $repository1 = $this->getDoctrine()->getRepository(User::class);
+        $totalOrders = $repository->count(['client' => $id]);
+        $solde = $repository1->findOneBy(['id' => $id]);
+        $approvedOrders = $repository->count(['client' => $id, 'pending' => 0, 'Approved' => 1]);
+        $refusedOrders = $repository->count(['client' => $id, 'pending' => 0, 'Approved' => 0]);
+        $pendingOrders = $repository->count(['client' => $id, 'pending' => 1]);
+        return $this->render('index1.html.twig', [
+            'totalOrders' => $totalOrders,
+            'solde' => $solde,
+            'approvedOrders' => $approvedOrders,
+            'refusedOrders' => $refusedOrders,
+            'pendingOrders' => $pendingOrders
+        ]);
+    }
+
+    /**
+     * @Route("/statistic/pharmacy/dash/{id}", name="statistic.pharmacy.dash")
+     */
+    public function index2($id): Response
+    {
+        $repository = $this->getDoctrine()->getRepository(Belong::class);
+        $repository1 = $this->getDoctrine()->getRepository(DrugOrder::class);
+        $repository2 = $this->getDoctrine()->getRepository(User::class);
+        $pharmacy = $repository2->findOneBy(['id' => $id]);
+        $clientNumbers = $repository1->clientNumber($id);
+        $totalMoney = $repository2->findOneBy(['id' => $id]);
+        $totalOrders = $repository1->count(['pharmacy' => $pharmacy]);
+        $numberDrugs= $repository->count(['pharmacy' => $pharmacy]);
+        $cityCalcul = $repository1->cityCalcul($id);
+        $pendingOrders = $repository1->findBy(['pharmacy' => $pharmacy, 'pending' => 1]);
+        $refusedOrder=$repository1->count(['pharmacy' => $pharmacy, 'pending' => 0, 'Approved' => 0]);;
+        $acceptOrder=$repository1->count(['pharmacy' => $pharmacy, 'pending' => 0, 'Approved' => 1]);;
+        $numberPend =$repository1->count(['pharmacy' => $pharmacy, 'pending' => 1]);
+        $findMoney = $repository1->findBy(['pharmacy' => $pharmacy, 'Approved' => 1]);
+        return $this->render('index2.html.twig', [
+            'totalMoney' => $totalMoney,
+            'totalOrders' => $totalOrders,
+            'numberDrugs' => $numberDrugs,
+            'clientNumber' => $clientNumbers[0][1],
+            'pendingOrders' => $pendingOrders,
+            'cityCalcul' => $cityCalcul,
+            'refuseOrder' => $refusedOrder,
+            'acceptOrder' => $acceptOrder,
+            'numberPend' => $numberPend,
+            'findMoney' => $findMoney
+        ]);
+    }
+
 }

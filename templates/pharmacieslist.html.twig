@@ -13,22 +13,28 @@
     <div class="container">
         <h2 class="text-center">List of Pharmacies :</h2>
         <h4 class="text-center"><a href="{{ path('routing.homeIn') }}">Go Back To Lobby</a></h4>
-        {% for pharma in pharmacy %}
-            <div class="col-xs-12 col-sm-4">
-                <div class="card" style="background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.2)),
-                        /*url('https://i1.wp.com/handluggageonly.co.uk/wp-content/uploads/2015/05/IMG_2813-s.jpg?w=1600&ssl=1');*/
-                        url('{{ asset(pharma.featuredimage) }}');"
-                >
-                    <div class="card-category">{{ pharma.city }}</div>
-                    <div class="card-description">
-                        <h2>{{ pharma.firstName }}  {{ pharma.LastName }}</h2>
-                        <p><b>Open:</b> {{ pharma.open }}</p>
-                        <p><b>Close:</b> {{ pharma.close }}</p>
-                    </div>
-                     <a class="card-link" href="{{ path('drug.list', { 'id': pharma.id}) }}" ></a>
-                </div>
+        {% if pharmacy == [] %}
+            <div class="text-center">
+            <h1>Sorry! There is no pharmacies in this region!</h1>
             </div>
-        {% endfor %}
+        {% else %}
+            {% for pharma in pharmacy %}
+                <div class="col-xs-12 col-sm-4">
+                    <div class="card" style="background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.2)),
+                            /*url('https://i1.wp.com/handluggageonly.co.uk/wp-content/uploads/2015/05/IMG_2813-s.jpg?w=1600&ssl=1');*/
+                            url('{{ asset(pharma.featuredimage) }}');"
+                    >
+                        <div class="card-category">{{ pharma.city }}</div>
+                        <div class="card-description">
+                            <h2>{{ pharma.firstName }}  {{ pharma.LastName }}</h2>
+                            <p><b>Open:</b> {{ pharma.open  | date('h:i:s') }}</p>
+                            <p><b>Close:</b> {{ pharma.close | date('h:i:s') }}</p>
+                        </div>
+                        <a class="card-link" href="{{ path('drug.list', { 'id': pharma.id}) }}"></a>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
     </div>
 </div>
 </div>

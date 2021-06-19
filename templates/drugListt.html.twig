@@ -4,21 +4,33 @@
 
 {% block body %}
     <div class="row">
-        {% for druge in drugs %}
-            <div class="card" style="width: 20rem;">
-                 <img class="card-img-top" src="{{ asset(druge.featured_image) }}" alt="Card image cap">
-                <div class="card-body">
-                    <h5 class="card-title">{{ druge.Name }}</h5>
-                    <p class="card-text">{{ druge.price }}$</p>
-                </div>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">About : {{ druge.description }}</li>
-                </ul>
-                <div class="card-body">
-                    <a href="{{ path('drug.order.client',{'id': druge.id, 'idd': idd}) }}" class="btn btn-danger">Order Drug</a>
-                </div>
+
+        {% if drugs == [] %}
+            <div class=" container">
+                <h1 class="text-center">No orders for today!</h1>
             </div>
-        {% endfor %}
+        {% else %}
+            {% for druge in drugs %}
+                <div class="card" style="width: 20rem;">
+                    <br>
+                    <br>
+                    <br>
+
+                    <img class="card-img-top" src="{{ asset(druge.featured_image) }}" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ druge.Name }}</h5>
+                        <p class="card-text">{{ druge.price }}$</p>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">About : {{ druge.description }}</li>
+                    </ul>
+                    <div class="card-body">
+                        <a href="{{ path('drug.order.client',{'id': druge.id, 'idd': idd}) }}" class="btn btn-danger">Order
+                            Drug</a>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
     </div>
 {% endblock %}
 

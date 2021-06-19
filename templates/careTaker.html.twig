@@ -9,19 +9,30 @@
     <br>
     <br>
     <br>
-    {% for message in app.flashes('success') %}
-        <div class="alert alert-success">
-            {{ message }}
-        </div>
-    {% endfor %}
-    {% for message in app.flashes('error') %}
-        <div class="alert alert-alert">
-            {{ message }}
-        </div>
+{#    {% for message in app.flashes('success') %}#}
+{#        <div class="alert alert-success">#}
+{#            {{ message }}#}
+{#        </div>#}
+{#    {% endfor %}#}
+{#    {% for message in app.flashes('error') %}#}
+{#        <div class="alert alert-alert">#}
+{#            {{ message }}#}
+{#        </div>#}
 
-    {% endfor %}
-     <div class="row">
-         {% if caretakers is defined %}
+{#    {% endfor %}#}
+
+{#     <div class="row">#}
+    <div class="container">
+{#         {% if caretakers is defined %}#}
+         {% if caretakers == [] %}
+             <div class="text-center">
+                 <h1>Sorry! There is no caretakers to hire in this region!</h1>
+             </div>
+             <br>
+             <h4 class="text-center"><a href="{{ path('routing.homeIn') }}">Go Back To Lobby</a></h4>
+             <h4 class="text-center"><b>OR</b></h4>
+             <h4 class="text-center"><a href="{{ path('city.afficher', { 'place' : 'caretaker.affich'}) }}">Go Back To The Regions' list</a></h4>
+         {% else %}
         {% for caretaker in caretakers %}
             <div style="padding: 15px">
             <div  class="card" style="width: 20rem;">

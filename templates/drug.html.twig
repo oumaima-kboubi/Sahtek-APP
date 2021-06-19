@@ -14,6 +14,11 @@
         <h2 class="text-center">List of Drug's Categories : Choose One</h2>
         <h4 class="text-center"><a href="{{ path('routing.homeIn') }}">Go Back To Lobby</a></h4>
 {#        <h2 class="text-center">List of Drug's Categories : Choose One</h2>#}
+        {% if categories == [] %}
+        <div class="text-center">
+            <h1>Sorry! There is no categories yet! Thanks for looking here</h1>
+        </div>
+        {% else %}
         {% for category in categories %}
             <div class="col-xs-12 col-sm-4">
                 <div class="card" style="background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.2)),
@@ -29,6 +34,7 @@
                 </div>
             </div>
         {% endfor %}
+        {% endif %}
     </div>
 </div>
 </div>

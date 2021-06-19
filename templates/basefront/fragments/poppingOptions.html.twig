@@ -22,6 +22,19 @@
                         <br>
                     </div>
                 </div>{# pharmacies #}
+                <div class="col-md-6 mb-4 col-lg-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="service-29193 text-center">
+              <span class="img-wrap mb-5">
+                <img src={{ asset('images/pharmacy.png') }} alt="Image" class="img-fluid">
+              </span>
+                        <h3 class="mb-4"><a
+                                    href="{{ path('statistic.map.dash',{ 'id' : app.user.id}) }}">Nearest Pharmacy Around You</a></h3>
+                        <p>Check all the pharmacies nearby
+                            .</p>
+                        <br>
+                        <br>
+                    </div>
+                </div>{# pharmacies #}
                     <div class="col-md-6 mb-4 col-lg-4" data-aos="fade-up" data-aos-delay="100">
                     <div class="service-29193 text-center">
               <span class="img-wrap mb-5">
@@ -53,14 +66,26 @@
               <span class="img-wrap mb-5">
                 <img src={{ asset('images/online-order.png') }} alt="Image" class="img-fluid">
               </span>
-                        <h3 class="mb-4"><a href="#">Order Drugs</a></h3>
+                        <h3 class="mb-4"><a href="{{ path('city.afficher',{ 'place' : 'pharmacy.list'}) }}">Order Drugs</a></h3>
                         <p>check your orders.
                             .</p>
                         <br>
                         <br>
                     </div>
                 </div>{# order Drugs #}
-
+                    <div class="col-md-6 mb-4 col-lg-4" data-aos="fade-up" data-aos-delay="">
+                        <div class="service-29193 text-center">
+              <span class="img-wrap mb-5">
+                <img src={{ asset('images/wall-clock.png') }} alt="Image" class="img-fluid">
+              </span>
+                            <h3 class="mb-4"><a href="{{ path('pending.order',{ 'id' : app.user.id}) }}">Pending
+                                    Drug Orders</a></h3>
+                            <p>Check your pending drug orders
+                                .</p>
+                            <br>
+                            <br>
+                        </div>
+                    </div> {# pending Order Caretaker #}
 
                 <div class="col-md-6 mb-4 col-lg-4" data-aos="fade-up" data-aos-delay="200">
                     <div class="service-29193 text-center">
@@ -88,6 +113,7 @@
                         <br>
                     </div>
                 </div> {# pending Order Caretaker #}
+
                 <div class="col-md-6 mb-4 col-lg-4" data-aos="fade-up" data-aos-delay="100">
                     <div class="service-29193 text-center">
               <span class="img-wrap mb-5">
@@ -106,7 +132,7 @@
               <span class="img-wrap mb-5">
                 <img src={{ asset('images/stats.png') }} alt="Image" class="img-fluid">
               </span>
-                        <h3 class="mb-4"><a href="#">Statics</a></h3>
+                        <h3 class="mb-4"><a href="{{ path('statistic.user.dash',{ 'id' : app.user.id }) }}">Statics</a></h3>
                         <p>Check your usage statics
                             .</p>
                         <br>
@@ -278,7 +304,19 @@
                         <br>
                     </div>
                 </div> {# statics #}
-
+                    <div class="col-md-6 mb-4 col-lg-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="service-29193 text-center">
+              <span class="img-wrap mb-5">
+                <img src={{ asset('images/wall-clock.png') }} alt="Image" class="img-fluid">
+              </span>
+                        <h3 class="mb-4"><a href="{{ path('consult.drugs.orders', {'id': app.user.id}) }}">Pending
+                                Orders</a></h3>
+                        <p>Check Your pending Orders.
+                            .</p>
+                        <br>
+                        <br>
+                    </div>
+                    </div>{# pending orders #}
 
                 {% elseif is_granted("ROLE_ADMIN") %}
                     <div class="col-md-6 mb-4 col-lg-4" data-aos="fade-up" data-aos-delay="100">

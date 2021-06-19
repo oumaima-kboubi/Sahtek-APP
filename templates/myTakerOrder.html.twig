@@ -13,11 +13,16 @@
         </div>
     {% endfor %}
     {% for message in app.flashes('error') %}
-        <div class="alert alert-alert">
+        <div class="alert alert-danger">
             {{ message }}
         </div>
     {% endfor %}
     <div class="row">
+        {% if orders == [] %}
+        <div class=" container">
+            <h1 class="text-center">No orders for today!</h1>
+        </div>
+        {% else %}
         {% if orders is defined %}
             {% for order in orders %}
                 <br>
@@ -41,6 +46,7 @@
                 <br>
                 <br>
             {% endfor %}
+        {% endif %}
         {% endif %}
     </div>
     <br>
