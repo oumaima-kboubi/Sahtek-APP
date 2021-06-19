@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="au theme template">
+    <meta name="author" content="Hau Nguyen">
+    <meta name="keywords" content="au theme template">
+
+    <!-- Title Page-->
+    <title>Statistics - Pharmacy</title>
+
+    <!-- Fontfaces CSS-->
+    <link href="{{ asset('statPham/css/font-face.css') }}" rel="stylesheet" media="all">
+    <link href="{{ asset('statPham/vendor/font-awesome-4.7/css/font-awesome.min.css') }}" rel="stylesheet" media="all">
+    <link href="{{ asset('statPham/vendor/font-awesome-5/css/fontawesome-all.min.css') }}" rel="stylesheet" media="all">
+    <link href="{{ asset('statPham/vendor/mdi-font/css/material-design-iconic-font.min.css') }}" rel="stylesheet" media="all">
+
+    <!-- Bootstrap CSS-->
+    <link href="{{ asset('statPham/vendor/bootstrap-4.1/bootstrap.min.css') }}" rel="stylesheet" media="all">
+
+    <!-- Vendor CSS-->
+   {#  <link href="{{ asset('statPham/vendor/animsition/animsition.min.css') }}" rel="stylesheet" media="all"> #}
+    <link href="{{ asset('statPham/vendor/bootstrap-progressbar/bootstrap-progressbar-3.3.4.min.css') }}" rel="stylesheet" media="all">
+    <link href="{{ asset('statPham/vendor/wow/animate.css') }}" rel="stylesheet" media="all">
+    <link href="{{ asset('statPham/vendor/css-hamburgers/hamburgers.min.css') }}" rel="stylesheet" media="all">
+    <link href="{{ asset('statPham/vendor/slick/slick.css') }}" rel="stylesheet" media="all">
+    <link href="{{ asset('statPham/vendor/select2/select2.min.css') }}" rel="stylesheet" media="all">
+    <link href="{{ asset('statPham/vendor/perfect-scrollbar/perfect-scrollbar.css') }}" rel="stylesheet" media="all">
+
+    <!-- Main CSS-->
+    <link href="{{ asset('statPham/css/theme.css') }}" rel="stylesheet" media="all">
+
+</head>
+
+<body class="animsition">
+<div class="page-wrapper">
+
+    <!-- PAGE CONTAINER-->
+    <div class="page-container">
+        <!-- MAIN CONTENT-->
+        <div class="main-content">
+            <div class="section__content section__content--p30">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="overview-wrap">
+                                <h2 class="title-1">overview</h2>
+                                <h2 class="mb-4" ><a href="{{ path('routing.homeIn') }}">Go Back To Lobby</a></h2>
+{#                                <button class="au-btn au-btn-icon au-btn--blue" href="{{ path('routing.homeIn') }}">#}
+{#                                    <i class="zmdi zmdi-plus" ></i>Go Back</button>#}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row m-t-25">
+                        <div class="col-sm-6 col-lg-3">
+                            <div class="overview-item overview-item--c1">
+                                <div class="overview__inner">
+                                    <div class="overview-box clearfix">
+                                        <div class="icon">
+                                            <i class="zmdi zmdi-account-o"></i>
+                                        </div>
+                                        <div class="text">
+                                            <h2>{{ clientNumber }}</h2>
+                                            <span>Client Numbers</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-lg-3">
+                            <div class="overview-item overview-item--c2">
+                                <div class="overview__inner">
+                                    <div class="overview-box clearfix">
+                                        <div class="icon">
+                                            <i class="zmdi zmdi-shopping-cart"></i>
+                                        </div>
+                                        <div class="text">
+                                            <h2>{{ numberDrugs }}</h2>
+                                            <span>Number Of Drugs</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-lg-3">
+                            <div class="overview-item overview-item--c3">
+                                <div class="overview__inner">
+                                    <div class="overview-box clearfix">
+                                        <div class="icon">
+                                            <i class="zmdi zmdi-calendar-note"></i>
+                                        </div>
+                                        <div class="text">
+                                            <h2>{{ totalOrders }}</h2>
+                                            <span>Order Numbers</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-lg-3">
+                            <div class="overview-item overview-item--c4">
+                                <div class="overview__inner">
+                                    <div class="overview-box clearfix">
+                                        <div class="icon">
+                                            <i class="zmdi zmdi-money"></i>
+                                        </div>
+                                        <div class="text">
+                                            <h2>{{ totalMoney.solde }}</h2>
+                                            <span>total Money</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="au-card recent-report">
+                                <div class="au-card-inner">
+                                    <h3 class="title-2">recent reports</h3>
+                                    <div class="chart-info">
+                                        <div class="chart-info__left">
+                                            <div class="chart-note">
+                                                <span class="dot dot--blue"></span>
+                                                <span>Money</span>
+                                            </div>
+                                            <div class="chart-note mr-0">
+                                                <span class="dot dot--green"></span>
+                                                <span>Orders</span>
+                                            </div>
+                                        </div>
+                                        <div class="chart-info__right">
+                                            <div class="chart-statis">
+                                                    <span class="index incre">
+                                                        <i class="zmdi zmdi-long-arrow-up"></i>50%</span>
+                                                <span class="label"> Orders </span>
+                                            </div>
+                                            <div class="chart-statis mr-0">
+                                                    <span class="index decre">
+                                                        <i class="zmdi zmdi-long-arrow-down"></i>8%</span>
+                                                <span class="label">Money</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="recent-report__chart">
+                                        <canvas id="recent-rep-chart" ></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="au-card chart-percent-card">
+                                <div class="au-card-inner">
+                                    <h3 class="title-2 tm-b-5">Orders by %</h3>
+                                    <div class="row no-gutters">
+                                        <div class="col-xl-6">
+                                            <div class="chart-note-wrap">
+                                                <div class="chart-note mr-0 d-block">
+                                                    <span class="dot dot--blue"></span>
+                                                    <span>Pending</span>
+                                                </div>
+                                                <div class="chart-note mr-0 d-block">
+                                                    <span class="dot dot--red"></span>
+                                                    <span>Refused</span>
+                                                </div>
+                                                <div class="chart-note mr-0 d-block">
+                                                    <span class="dot dot--green"></span>
+                                                    <span>Accepted</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6">
+                                            <div class="percent-chart">
+                                                 {% set entryInfo = {
+                                                    pend: numberPend,
+                                                    accept: acceptOrder,
+                                                    refuse: refuseOrder,
+                                                } %}
+                                                <canvas id="percent-chart"  data-entry-info="{{ entryInfo|json_encode }}"></canvas>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-9">
+                            <h2 class="title-1 m-b-25">Pending Orders</h2>
+                            <div class="table-responsive table--no-card m-b-40">
+                                <table class="table table-borderless table-striped table-earning">
+                                    <thead>
+                                    <tr>
+                                        <th>date</th>
+                                        <th>order ID</th>
+                                        <th>description</th>
+                                        <th class="text-right">price</th>
+                                        <th class="text-right">quantity</th>
+                                        <th class="text-right">total</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for pen in pendingOrders %}
+                                    <tr>
+                                        <td>{{ pen.day |date("M/D ,Y") }}</td>
+                                        <td>{{ pen.id }}</td>
+                                        <td>{{ pen.description }}</td>
+                                        <td class="text-right">${{ pen.price }}</td>
+                                        <td class="text-right">{{ pen.quantity }}</td>
+                                        {% set i = pen.price*pen.quantity %}
+                                        <td class="text-right">${{ i }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <h2 class="title-1 m-b-25">Top Cities</h2>
+                            <div class="au-card au-card--bg-blue au-card-top-countries m-b-40">
+                                <div class="au-card-inner">
+                                    <div class="table-responsive">
+                                        <table class="table table-top-countries">
+                                            <tbody>
+                                             {% for city in cityCalcul %}
+                                            <tr>
+                                                <td>{{ city.city }}</td>
+                                                <td class="text-right">${{ city.sour }}</td>
+                                            </tr>
+                                             {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END MAIN CONTENT-->
+        <!-- END PAGE CONTAINER-->
+    </div>
+
+</div>
+
+<!-- Jquery JS-->
+<script src="{{ asset('statPham/vendor/jquery-3.2.1.min.js') }}"></script>
+<!-- Bootstrap JS-->
+<script src="{{ asset('statPham/vendor/bootstrap-4.1/popper.min.js') }}"></script>
+<script src="{{ asset('statPham/vendor/bootstrap-4.1/bootstrap.min.js') }}"></script>
+<!-- Vendor JS       -->
+<script src="{{ asset('statPham/vendor/slick/slick.min.js') }}">
+</script>
+<script src="{{ asset('statPham/vendor/wow/wow.min.js') }}"></script>
+<script src="{{ asset('statPham/vendor/animsition/animsition.min.js') }}"></script>
+<script src="{{ asset('statPham/vendor/bootstrap-progressbar/bootstrap-progressbar.min.js') }}">
+</script>
+<script src="{{ asset('statPham/vendor/counter-up/jquery.waypoints.min.js') }}"></script>
+<script src="{{ asset('statPham/vendor/counter-up/jquery.counterup.min.js') }}">
+</script>
+<script src="{{ asset('statPham/vendor/circle-progress/circle-progress.min.js') }}"></script>
+<script src="{{ asset('statPham/vendor/perfect-scrollbar/perfect-scrollbar.js') }}"></script>
+<script src="{{ asset('statPham/vendor/chartjs/Chart.bundle.min.js') }}"></script>
+<script src="{{ asset('statPham/vendor/select2/select2.min.js') }}">
+</script>
+
+<!-- Main JS-->
+<script src="{{ asset('main.js') }}"></script>
+
+</body>
+
+</html>
+<!-- end document-->

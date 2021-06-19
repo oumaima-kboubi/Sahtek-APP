@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8"/>
+    <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
+    <link rel="icon" type="image/png" href="../assets/img/favicon.png">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <title>
+        sahtekAPP Map
+    </title>
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
+          name='viewport'/>
+    <!--     Fonts and icons     -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet"/>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+    <!-- CSS Files -->
+    <link href="{{ asset('statUser/css/bootstrap.min.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('statUser/css/paper-dashboard.css') }}" rel="stylesheet"/>
+    <!-- CSS Just for demo purpose, don't include it in your project -->
+    <link href="{{ asset('statUser/demo/demo.css') }}" rel="stylesheet"/>
+</head>
+
+<body class="">
+<div class="wrapper ">
+    <div class="main-panel">
+        <div class="content">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card ">
+                        <div class="card-header ">
+                            Google Maps
+                        </div>
+                        <div class="card-body ">
+                            <div id="map" class="map">
+                                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d285.0199629667855!2d10.181725572327213!3d37.190682432046266!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12e2c1facaea0df1%3A0x2b248325e5e6f350!2z2LXZitiv2YTZitmO2ZHYqSDYp9mE2YLYtdmI2LHZig!5e0!3m2!1sfr!2stn!4v1624085058356!5m2!1sfr!2stn"
+                                        width="1200" height="500" style="border:0;" allowfullscreen=""
+                                        loading="lazy"></iframe>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--   Core JS Files   -->
+        <script src="{{ asset('statUser/js/core/jquery.min.js') }}"></script>
+        <script src="{{ asset('statUser/js/core/popper.min.js') }}"></script>
+        <script src="{{ asset('statUser/js/core/bootstrap.min.js') }}"></script>
+        <script src="{{ asset('statUser/js/plugins/perfect-scrollbar.jquery.min.js') }}"></script>
+        <!--  Google Maps Plugin    -->
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAOdQ1wWQlZ6zRI1bBclx3R2DzjSkmhwno"></script>
+        <!-- Chart JS -->
+        <script src="{{ asset('statUser/js/plugins/chartjs.min.js') }}"></script>
+        <!--  Notifications Plugin    -->
+        <script src="{{ asset('statUser/js/plugins/bootstrap-notify.js') }}"></script>
+        <!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
+        {# <script src="{{ asset('statUser/js/paper-dashboard.min.js') }}" type="text/javascript"></script><!-- Paper Dashboard DEMO methods, don't include it in your project! --> #}
+        <script>
+            $(document).ready(function () {
+                demo.initGoogleMaps();
+            });
+        </script>
+</body>
+
+</html>

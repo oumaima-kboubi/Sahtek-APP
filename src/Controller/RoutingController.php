@@ -707,6 +707,7 @@ class RoutingController extends AbstractController
         $repository = $this->getDoctrine()->getRepository(DrugOrder::class);
         $order = $repository->findOneBy(['id' => $id]);
         $order->setPending(0);
+        $order->setApproved(0);
         $manager->persist($order);
         $manager->flush();
         $this->addFlash('error', 'Order Refused :( ');
@@ -723,10 +724,11 @@ class RoutingController extends AbstractController
 
 
         $order = $repository->findOneBy(['id' => $id]);
-        $client = $repository1->findOneBy(['id' => $order->getClient()]);
-        $money = $repository2->findOneBy(['id' => $user]);
-        $pharmacy = $repository1->findOneBy(['id' => $order->getPharmacy()]);
+        $client = $repository1->findOneBy(['id' => $order->getClient()->getId()]);
+        $money = $repository2->findOneBy(['id' => 1]);
+        $pharmacy = $repository1->findOneBy(['id' => $order->getPharmacy()->getId()]);
         $order->setPending(0);
+        $order->setApproved(true);
 
 
         $a = $client->getSolde() - $order->getPrice();
@@ -747,4 +749,71 @@ class RoutingController extends AbstractController
         $this->addFlash('success', 'Order approved with success');
         return $this->redirectToRoute('consult.drugs.orders', ['id' => $user]);
     }
+
+    /**
+     * @Route("/statistic/map/dash/{id}", name="statistic.map.dash")
+     */
+    public function mapIt($id) : Response
+    {
+        $repository = $this->getDoctrine()->getRepository(User::class);
+        $pharmacy = $repository->findOneBy(['id' => $id]);
+        return $this->render('map.html.twig', [
+            'pharmacy' => $pharmacy
+        ]);
+    }
+
+    /**
+     * @Route("/statistic/user/dash/{id}", name="statistic.user.dash")
+     */
+    public function index1($id): Response
+    {
+        $repository = $this->getDoctrine()->getRepository(DrugOrder::class);
+        $repository1 = $this->getDoctrine()->getRepository(User::class);
+        $totalOrders = $repository->count(['client' => $id]);
+        $solde = $repository1->findOneBy(['id' => $id]);
+        $approvedOrders = $repository->count(['client' => $id, 'pending' => 0, 'Approved' => 1]);
+        $refusedOrders = $repository->count(['client' => $id, 'pending' => 0, 'Approved' => 0]);
+        $pendingOrders = $repository->count(['client' => $id, 'pending' => 1]);
+        return $this->render('index1.html.twig', [
+            'totalOrders' => $totalOrders,
+            'solde' => $solde,
+            'approvedOrders' => $approvedOrders,
+            'refusedOrders' => $refusedOrders,
+            'pendingOrders' => $pendingOrders
+        ]);
+    }
+
+    /**
+     * @Route("/statistic/pharmacy/dash/{id}", name="statistic.pharmacy.dash")
+     */
+    public function index2($id): Response
+    {
+        $repository = $this->getDoctrine()->getRepository(Belong::class);
+        $repository1 = $this->getDoctrine()->getRepository(DrugOrder::class);
+        $repository2 = $this->getDoctrine()->getRepository(User::class);
+        $pharmacy = $repository2->findOneBy(['id' => $id]);
+        $clientNumbers = $repository1->clientNumber($id);
+        $totalMoney = $repository2->findOneBy(['id' => $id]);
+        $totalOrders = $repository1->count(['pharmacy' => $pharmacy]);
+        $numberDrugs= $repository->count(['pharmacy' => $pharmacy]);
+        $cityCalcul = $repository1->cityCalcul($id);
+        $pendingOrders = $repository1->findBy(['pharmacy' => $pharmacy, 'pending' => 1]);
+        $refusedOrder=$repository1->count(['pharmacy' => $pharmacy, 'pending' => 0, 'Approved' => 0]);;
+        $acceptOrder=$repository1->count(['pharmacy' => $pharmacy, 'pending' => 0, 'Approved' => 1]);;
+        $numberPend =$repository1->count(['pharmacy' => $pharmacy, 'pending' => 1]);
+        $findMoney = $repository1->findBy(['pharmacy' => $pharmacy, 'Approved' => 1]);
+        return $this->render('index2.html.twig', [
+            'totalMoney' => $totalMoney,
+            'totalOrders' => $totalOrders,
+            'numberDrugs' => $numberDrugs,
+            'clientNumber' => $clientNumbers[0][1],
+            'pendingOrders' => $pendingOrders,
+            'cityCalcul' => $cityCalcul,
+            'refuseOrder' => $refusedOrder,
+            'acceptOrder' => $acceptOrder,
+            'numberPend' => $numberPend,
+            'findMoney' => $findMoney
+        ]);
+    }
+
 }

@@ -119,7 +119,7 @@ class DrugOrderRepository extends ServiceEntityRepository
     {
         $em = $this->getEntityManager();
         return $em->createQuery(
-            " select p.birthDate, p.lastName, p.firstName, p.city, d.description, d.quantity, d.price, d.createdAt, r.Name,
+            " select p.birthDate, p.lastName, p.firstName, p.city, d.description, d.quantity, d.price, d.createdAt, r.Name
         from App\Entity\DrugOrder d, App\Entity\User p, App\Entity\Drug r
         where d.client = :val and p.id = d.client and d.Drug = r.id and d.pending =1")
             ->setParameter('val', $id)
@@ -138,4 +138,32 @@ class DrugOrderRepository extends ServiceEntityRepository
             ->getResult()
             ;
     }
+
+    public function clientNumber($id)
+    {
+        $em = $this->getEntityManager();
+        return $em->createQuery(
+            " select COUNT(distinct (d.client))
+        from App\Entity\DrugOrder d
+        where d.pharmacy = :val ")
+            ->setParameter('val', $id)
+            ->getResult()
+            ;
+    }
+    public function cityCalcul($id)
+    {
+        $em = $this->getEntityManager();
+        return $em->createQuery(
+            " select SUM(d.price * d.quantity) as sour, p.city  
+        from App\Entity\DrugOrder d, App\Entity\User p
+        where d.pharmacy = :val and d.client = p.id
+        GROUP BY p.city
+        order by sour DESC 
+         ")
+            ->setParameter('val', $id)
+            ->getResult()
+            ;
+    }
+
+
 }

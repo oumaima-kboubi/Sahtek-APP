@@ -176,6 +176,11 @@ class User implements UserInterface
      */
     private $belongs;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $map;
+
 
 
 
@@ -618,6 +623,18 @@ class User implements UserInterface
                 $belong->setPharmacy(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getMap(): ?string
+    {
+        return $this->map;
+    }
+
+    public function setMap(?string $map): self
+    {
+        $this->map = $map;
 
         return $this;
     }
